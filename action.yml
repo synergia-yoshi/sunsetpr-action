@@ -17,7 +17,6 @@ inputs:
 outputs:
   findings:
     description: Number of model findings
-    value: ${{ steps.scan.outputs.findings }}
   runtime-checks:
     description: Number of unresolved dynamic model references
   retired:

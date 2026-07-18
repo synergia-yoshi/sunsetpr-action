@@ -6,10 +6,32 @@ import type { LifecycleDatabase, LifecycleEntry } from "./types.js";
 const PROVIDERS = new Set(["openai", "anthropic", "gemini"]);
 const STATUSES = new Set(["deprecated", "retired"]);
 const CONFIDENCES = new Set(["high", "medium", "low"]);
+const OFFICIAL_SOURCES = {
+  openai: {
+    hostname: "developers.openai.com",
+    pathname: "/api/docs/deprecations",
+  },
+  anthropic: {
+    hostname: "platform.claude.com",
+    pathname: "/docs/en/about-claude/model-deprecations",
+  },
+  gemini: {
+    hostname: "ai.google.dev",
+    pathname: "/gemini-api/docs/deprecations",
+  },
+} as const;
 
 function defaultDatabasePath(): string {
   const moduleDirectory = path.dirname(fileURLToPath(import.meta.url));
   return path.resolve(moduleDirectory, "../../data/lifecycle.json");
+}
+
+function isIsoDate(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return false;
+  }
+  const timestamp = Date.parse(`${value}T00:00:00.000Z`);
+  return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value;
 }
 
 function validateEntry(value: unknown, index: number): asserts value is LifecycleEntry {
@@ -31,12 +53,20 @@ function validateEntry(value: unknown, index: number): asserts value is Lifecycl
       throw new Error(`Lifecycle entry ${index} is missing ${key}`);
     }
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(entry.shutdownDate))) {
+  if (!isIsoDate(String(entry.shutdownDate))) {
     throw new Error(`Lifecycle entry ${index} has an invalid shutdown date`);
   }
   const source = new URL(String(entry.sourceUrl));
   if (source.protocol !== "https:") {
     throw new Error(`Lifecycle entry ${index} must use an HTTPS source URL`);
+  }
+  const provider = entry.provider as LifecycleEntry["provider"];
+  const expectedSource = OFFICIAL_SOURCES[provider];
+  if (
+    source.hostname !== expectedSource.hostname ||
+    source.pathname.replace(/\/$/, "") !== expectedSource.pathname
+  ) {
+    throw new Error(`Lifecycle entry ${index} must cite the official ${provider} source`);
   }
 }
 
@@ -54,13 +84,26 @@ export async function loadDatabase(explicitPath?: string): Promise<LifecycleData
   ) {
     throw new Error("Lifecycle database is missing version, checkedAt, or entries");
   }
+  if (!isIsoDate(database.checkedAt)) {
+    throw new Error("Lifecycle database has an invalid checkedAt date");
+  }
   database.entries.forEach(validateEntry);
   const modelIds = new Set<string>();
+  const entriesByModelId = new Map<string, LifecycleEntry>();
   for (const entry of database.entries) {
     if (modelIds.has(entry.modelId)) {
       throw new Error(`Duplicate model ID in lifecycle database: ${entry.modelId}`);
     }
     modelIds.add(entry.modelId);
+    entriesByModelId.set(entry.modelId, entry);
+  }
+  for (const entry of database.entries) {
+    const deprecatedReplacement = entriesByModelId.get(entry.replacement);
+    if (deprecatedReplacement && entry.replacementConfidence === "high") {
+      throw new Error(
+        `High-confidence replacement for ${entry.modelId} is itself ${deprecatedReplacement.status}: ${entry.replacement}`,
+      );
+    }
   }
   return {
     version: database.version as number,

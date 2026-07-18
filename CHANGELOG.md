@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2 — 2026-07-19
+
+- Add six newly verified OpenAI model snapshots scheduled to shut down on 2026-12-11.
+- Require provider-specific official documentation URLs in the lifecycle database.
+- Reject high-confidence replacements that are themselves deprecated or retired.
+- Route replacement chains to a current endpoint and keep chained migrations report-only.
+- Correct the JavaScript Action output metadata contract.
+
 ## 0.1.1 — 2026-07-19
 
 - Fix the bundled native AST parser bootstrap on GitHub-hosted Linux runners.

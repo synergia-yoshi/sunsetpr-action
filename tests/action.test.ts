@@ -7,8 +7,8 @@ import { scanRepository } from "../src/scanner.js";
 test("ships a current validated lifecycle database", async () => {
   const database = await loadDatabase();
   assert.equal(database.checkedAt, "2026-07-19");
-  assert.equal(database.entries.length, 99);
-  assert.equal(new Set(database.entries.map((entry) => entry.modelId)).size, 99);
+  assert.equal(database.entries.length, 105);
+  assert.equal(new Set(database.entries.map((entry) => entry.modelId)).size, 105);
 });
 
 test("detects known IDs and preserves dynamic model uncertainty", async () => {

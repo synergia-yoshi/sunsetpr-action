@@ -42,7 +42,7 @@ The first run adds line annotations and a structured table to the GitHub Actions
 - OpenAI, Anthropic, and Google Gemini entries verified against official provider documentation
 - unresolved SDK arguments that require runtime confirmation
 
-The bundled database currently contains 99 exact model IDs and aliases, checked on 2026-07-19. Provider documentation is the only source of truth.
+The bundled database currently contains 105 exact model IDs and aliases, checked on 2026-07-19. Provider documentation is the only source of truth.
 
 ## Inputs
 
@@ -81,7 +81,7 @@ Static analysis cannot prove the deployed value of an environment variable, a da
 
 An official replacement can still differ in behavior, quality, latency, price, token limits, or supported parameters. The free Action does not edit code. Replacement confidence is separate from detection confidence, and preview or ambiguous successors are not considered safe automatic fixes.
 
-The published benchmark contains 218 labeled positive and 218 labeled negative synthetic cases and currently measures 100% recall and 0% false-positive rate. It is a reproducible regression suite, not a claim about all real repositories.
+The published benchmark contains 230 labeled positive and 230 labeled negative synthetic cases and currently measures 100% recall and 0% false-positive rate. It is a reproducible regression suite, not a claim about all real repositories.
 
 ## CI-verified repair beta
 
@@ -97,6 +97,6 @@ The `v0` release is packaged and tested for GitHub-hosted `ubuntu-latest` runner
 
 ## Versioning
 
-Pin `@v0` for compatible updates during the public beta, or pin a full release such as `@v0.1.1` for an immutable review target. Release notes document lifecycle-data and scanner changes.
+Pin `@v0` for compatible updates during the public beta, or pin a full release such as `@v0.1.2` for an immutable review target. Release notes document lifecycle-data and scanner changes.
 
 Apache-2.0. SunsetPR is independent of OpenAI, Anthropic, Google, and GitHub.
