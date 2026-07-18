@@ -5,6 +5,7 @@ const outputRoot = path.resolve("_site");
 const baseUrl = "https://synergia-yoshi.github.io/sunsetpr-action";
 const actionUrl = "https://github.com/synergia-yoshi/sunsetpr-action";
 const demoPrUrl = "https://github.com/synergia-yoshi/sunsetpr-demo/pull/2";
+const socialImageUrl = `${baseUrl}/assets/og.png`;
 const privateBetaUrl =
   "mailto:katsumi@synergia-hub.com?subject=SunsetPR%20Repair%20beta%20request&body=Please%20do%20not%20include%20source%20code%2C%20secrets%2C%20or%20environment%20values.%0A%0AProviders%3A%0ALanguages%3A%0ARepository%20count%3A%0APublic%20or%20private%3A";
 const database = JSON.parse(await readFile("data/lifecycle.json", "utf8"));
@@ -42,6 +43,14 @@ function shell({ title, description, canonical, body, relativeRoot = "" }) {
   <meta property="og:title" content="${html(title)}">
   <meta property="og:description" content="${html(description)}">
   <meta property="og:url" content="${html(canonical)}">
+  <meta property="og:image" content="${socialImageUrl}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SunsetPR turns AI model deprecation evidence into review-ready draft PRs">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${html(title)}">
+  <meta name="twitter:description" content="${html(description)}">
+  <meta name="twitter:image" content="${socialImageUrl}">
 </head>
 <body>
   <header class="site-header">
@@ -77,6 +86,7 @@ await writeFile(
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#152126"/><path d="M17 43c4 4 20 4 20-4 0-10-20-4-20-15 0-9 16-10 22-4" fill="none" stroke="#df552d" stroke-width="6" stroke-linecap="round"/><path d="m43 17-12 31" stroke="#b9dc72" stroke-width="5" stroke-linecap="round"/></svg>`,
   "utf8",
 );
+await copyFile("assets/og.png", path.join(outputRoot, "assets/og.png"));
 
 const counts = Object.fromEntries(
   Object.keys(providerLabels).map((provider) => [

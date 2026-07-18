@@ -25,6 +25,12 @@ for (const entry of database.entries) {
   if (!page.includes("application/ld+json") || !page.includes("never auto-merge")) {
     throw new Error(`${file} is missing structured evidence or safety copy`);
   }
+  if (
+    !page.includes('property="og:image"') ||
+    !page.includes('name="twitter:card" content="summary_large_image"')
+  ) {
+    throw new Error(`${file} is missing social-preview metadata`);
+  }
 }
 
 const catalog = await readFile("_site/models/index.html", "utf8");
@@ -33,5 +39,6 @@ if (!catalog.includes(`Exact IDs, shutdown dates`) || !catalog.includes(`${datab
 }
 await access("_site/lifecycle.json");
 await access("_site/robots.txt");
+await access("_site/assets/og.png");
 
 process.stdout.write(`Verified ${database.entries.length} model pages and ${locations.length} sitemap URLs.\n`);
