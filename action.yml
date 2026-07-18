@@ -9,7 +9,7 @@ inputs:
   fail-on:
     description: "Failure threshold: never, deprecated, or retired"
     required: false
-    default: "deprecated"
+    default: "never"
   report:
     description: JSON report path
     required: false

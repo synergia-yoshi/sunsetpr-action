@@ -111,14 +111,14 @@ ${limitationRows ? `\n### Scan limitations\n\n${limitationRows}\n` : ""}
 - Model values that are dynamic or environment-backed remain explicitly unconfirmed.
 - No repository code or environment values are sent to SunsetPR or to an external AI model.
 - SunsetPR Action **v${report.toolVersion}**; lifecycle database checked **${report.databaseCheckedAt}** against provider documentation.
-${modelFindings.length > 0 ? `\n[Request a CI-verified draft repair PR](${REPAIR_BETA_URL}) — early access; no automatic merge.\n` : ""}
+${modelFindings.length > 0 ? `\n[Request an evidence-backed draft repair PR](${REPAIR_BETA_URL}) — early access; no automatic merge.\n` : ""}
 `;
 }
 
 export async function main(): Promise<void> {
   const root = path.resolve(process.env.INPUT_PATH ?? ".");
   const reportPath = resolveReportPath(process.env.INPUT_REPORT ?? ".sunsetpr/report.json");
-  const failOn = process.env["INPUT_FAIL-ON"] ?? "deprecated";
+  const failOn = process.env["INPUT_FAIL-ON"] ?? "never";
   if (!FAIL_THRESHOLDS.has(failOn)) {
     throw new Error(`Invalid fail-on value "${failOn}"; expected never, deprecated, or retired`);
   }

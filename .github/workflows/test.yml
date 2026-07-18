@@ -37,7 +37,6 @@ jobs:
         uses: ./
         with:
           path: test-fixture
-          fail-on: never
           report: .sunsetpr/report.json
       - name: Verify Action contract
         env:

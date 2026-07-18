@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: synergia-yoshi/sunsetpr-action@v0
         with:
-          fail-on: deprecated
+          fail-on: never
 ```
 
 The first run adds line annotations and a structured table to the GitHub Actions Job Summary. A machine-readable report is written to `.sunsetpr/report.json`.
@@ -63,7 +63,7 @@ The maintainer workflow fetches only the three configured provider-owned pages e
 | Input | Default | Meaning |
 | --- | --- | --- |
 | `path` | `.` | Repository directory to scan |
-| `fail-on` | `deprecated` | `never`, `deprecated`, or `retired` |
+| `fail-on` | `never` | `never` annotates without failing; opt into `deprecated` or `retired` after the first scan |
 | `report` | `.sunsetpr/report.json` | JSON report output path |
 
 ## Outputs
@@ -107,13 +107,13 @@ npm run benchmark
 
 See [BENCHMARK.md](BENCHMARK.md) for the corpus construction, thresholds, exact current confusion matrix, and limits.
 
-## CI-verified repair beta
+## Evidence-backed repair beta
 
-The paid product is being validated separately. It proposes a draft pull request with conservative code changes, generated migration invariants, official evidence, and customer-CI results. It never auto-merges. If CI fails or the successor is ambiguous, the result remains a draft or report.
+The paid product is being validated separately. It proposes a draft pull request with conservative code changes, location-scoped migration invariants, official evidence, and customer-CI results. The invariants do not prove live model behavior. It never auto-merges. If CI fails or the successor is ambiguous, the result remains a draft or report.
 
 [Request repair beta access](https://github.com/synergia-yoshi/sunsetpr-action/issues/new?template=repair-beta.yml)
 
-The provisional `$19 / $59 / $149` prices are hypotheses, not validated pricing or an active purchase offer.
+Pricing is under design-partner validation and is not an active purchase offer.
 
 ## Supported runner
 
@@ -121,6 +121,6 @@ The `v0` release is packaged and tested for GitHub-hosted `ubuntu-latest` runner
 
 ## Versioning
 
-Pin `@v0` for compatible updates during the public beta, or pin the full immutable release `@v0.1.5` for a fixed review target. Release notes document lifecycle-data and scanner changes.
+Pin `@v0` for compatible updates during the public beta, or pin the full immutable release `@v0.1.6` for a fixed review target. Release notes document lifecycle-data and scanner changes.
 
 Apache-2.0. SunsetPR is independent of OpenAI, Anthropic, Google, and GitHub.

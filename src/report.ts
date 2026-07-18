@@ -85,9 +85,9 @@ This is an automatically generated **draft**. It is never eligible for automatic
 
 - Disposition: **${report.disposition}**
 - Changed ${report.edits.length} model reference(s) in ${editedFiles.length} source/config file(s).
-- Added ${compatibilityTestFile ? `generated migration invariants in ${inlineCode(compatibilityTestFile)}` : "no compatibility test"}.
+- Added ${compatibilityTestFile ? `generated migration invariants in ${inlineCode(compatibilityTestFile)}` : "no generated migration invariants"}.
 - Verification result: ${failed.length === 0 ? `all executed checks passed${skipped.length > 0 ? `; ${skipped.length} check(s) skipped` : ""}` : `${failed.length} check(s) failed`}.
-- Generated compatibility tests are static migration invariants; they do not prove live model behavior.
+- Generated migration invariants do not prove live model behavior.
 
 ### Official evidence
 
