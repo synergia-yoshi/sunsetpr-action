@@ -84,7 +84,7 @@ export async function scanRepository(
       deprecated: modelFindings.filter((finding) => finding.status === "deprecated").length,
       retired: modelFindings.filter((finding) => finding.status === "retired").length,
       safeAutoFixes: modelFindings.filter(
-        (finding) => finding.confidence !== "low" && finding.replacementConfidence === "high",
+        (finding) => finding.confidence === "high" && finding.replacementConfidence === "high",
       ).length,
     },
   };
