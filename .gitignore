@@ -5,3 +5,4 @@ dist/tests/
 *.log
 .DS_Store
 dist/action/ast-grep-napi.darwin-*.node
+_site/

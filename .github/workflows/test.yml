@@ -24,6 +24,8 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run benchmark
+      - run: npm run pages:build
+      - run: npm run pages:check
       - run: npm run package
       - uses: actions/upload-artifact@v7
         with:

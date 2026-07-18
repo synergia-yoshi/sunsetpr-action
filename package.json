@@ -14,6 +14,8 @@
     "benchmark:generate": "node scripts/generate-benchmark-fixtures.mjs",
     "benchmark:check": "node scripts/generate-benchmark-fixtures.mjs --check",
     "benchmark": "npm run build && node scripts/run-benchmark.mjs",
+    "pages:build": "node scripts/build-pages.mjs",
+    "pages:check": "node scripts/check-pages.mjs",
     "catalog:generate": "node scripts/generate-lifecycle-catalog.mjs",
     "catalog:check": "node scripts/generate-lifecycle-catalog.mjs --check",
     "sources:baseline": "node scripts/verify-official-sources.mjs --write-baseline",

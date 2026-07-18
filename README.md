@@ -54,6 +54,8 @@ The bundled database currently contains 105 exact model IDs and aliases, checked
 
 [Browse all model shutdown dates and official replacements](MODEL-LIFECYCLE.md), or consume the canonical [`data/lifecycle.json`](data/lifecycle.json).
 
+The same official-source data also powers [105 crawlable model shutdown pages](https://synergia-yoshi.github.io/sunsetpr-action/models/) on GitHub Pages. The pages are generated and count-checked in public CI; they do not add tracking or a separate data source.
+
 The maintainer workflow fetches only the three configured provider-owned pages each week. It verifies that every current ID, shutdown date, and replacement remains represented and compares semantic model/date fingerprints. Drift opens one refreshable GitHub issue; it never rewrites lifecycle data without an official-source review.
 
 ## Inputs
