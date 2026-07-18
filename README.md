@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-      - uses: synergia-yoshi/sunsetpr-action@7e1c36bea73a7e6a8ed81d803cf00ff3dcbe9161 # v0.1.7
+      - uses: synergia-yoshi/sunsetpr-action@074b4e2aad0678075acad14d5e043e0ca788e77b # v0.2.0
         with:
           fail-on: never
 ```
@@ -149,9 +149,9 @@ The `v0` release is packaged and tested for GitHub-hosted `ubuntu-latest` runner
 
 ## Versioning
 
-The installation snippet remains pinned to the reviewed `v0.1.7` runtime until the hosted Linux
-bundle for `v0.2.0` is published. Review release notes and public CI before updating both the SHA
-and its version comment. Prefer an immutable full commit SHA; use floating `@v0` only when automatic
-compatible-beta updates are an intentional tradeoff.
+The installation snippet pins the reviewed `v0.2.0` Linux runtime by full commit SHA. Review release
+notes and public CI before updating both the SHA and its version comment. The immutable `@v0.2.0`
+tag is available for readability; use floating `@v0` only when automatic compatible-beta updates are
+an intentional tradeoff.
 
 Apache-2.0. SunsetPR is independent of OpenAI, Anthropic, Google, and GitHub.
