@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.7 — 2026-07-19
+
+- Recognize the official OpenAI `beta.chat.completions.runTools` helper as a high-confidence SDK context.
+- Preserve a runtime-confirmation finding when a model expression combines a literal fallback with a dynamic override.
+
 ## 0.1.2 — 2026-07-19
 
 - Add six newly verified OpenAI model snapshots scheduled to shut down on 2026-12-11.

@@ -100,9 +100,13 @@ function providerEvidence(content: string, provider: Provider): boolean {
 function detectSdkCall(text: string, content: string): SdkCall | null {
   if (
     /\.(?:responses|chat\.completions)\.create\s*\(/.test(text) ||
+    /\.beta\.chat\.completions\.runTools\s*\(/.test(text) ||
     /\bChatCompletion\.create\s*\(/.test(text)
   ) {
-    return { provider: "openai", name: "OpenAI create" };
+    return {
+      provider: "openai",
+      name: /\.runTools\s*\(/.test(text) ? "OpenAI runTools" : "OpenAI create",
+    };
   }
   if (/\.messages\.create\s*\(/.test(text) && providerEvidence(content, "anthropic")) {
     return { provider: "anthropic", name: "Anthropic Messages" };
@@ -152,6 +156,15 @@ function hasLiteralModelInNode(node: SgNode): boolean {
     }
   });
   return found;
+}
+
+function isDirectLiteralModelExpression(text: string): boolean {
+  const trimmed = text.trim();
+  const match = trimmed.match(/^(?:[rubfRUBF]*)(["'`])([\s\S]*)\1$/);
+  if (!match) {
+    return false;
+  }
+  return match[1] !== "`" || !match[2]?.includes("${");
 }
 
 function modelContext(
@@ -299,7 +312,7 @@ export function analyzeCode(
     const expression = argument.text().replace(/^\s*(?:model|modelId|model_id)\s*[:=]\s*/, "");
     const sourceKind = runtimeSourceKind(expression);
     const literalModel = hasLiteralModelInNode(argument);
-    if (literalModel && sourceKind !== "environment") {
+    if (literalModel && isDirectLiteralModelExpression(expression)) {
       return;
     }
     const range = argument.range();

@@ -123,6 +123,6 @@ The `v0` release is packaged and tested for GitHub-hosted `ubuntu-latest` runner
 
 ## Versioning
 
-Pin `@v0` for compatible updates during the public beta, or pin the full immutable release `@v0.1.6` for a fixed review target. Release notes document lifecycle-data and scanner changes.
+Pin `@v0` for compatible updates during the public beta, or pin the full immutable release `@v0.1.7` for a fixed review target. Release notes document lifecycle-data and scanner changes.
 
 Apache-2.0. SunsetPR is independent of OpenAI, Anthropic, Google, and GitHub.
