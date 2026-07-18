@@ -1,6 +1,7 @@
 # SunsetPR AI Model Lifecycle Check
 
 [![Test](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/test.yml/badge.svg)](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/test.yml)
+[![Official source monitor](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/official-source-monitor.yml/badge.svg)](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/official-source-monitor.yml)
 [![Latest release](https://img.shields.io/github/v/release/synergia-yoshi/sunsetpr-action)](https://github.com/synergia-yoshi/sunsetpr-action/releases/latest)
 [![License](https://img.shields.io/github/license/synergia-yoshi/sunsetpr-action)](LICENSE)
 
@@ -49,6 +50,8 @@ The first run adds line annotations and a structured table to the GitHub Actions
 The bundled database currently contains 105 exact model IDs and aliases, checked on 2026-07-19. Provider documentation is the only source of truth.
 
 [Browse all model shutdown dates and official replacements](MODEL-LIFECYCLE.md), or consume the canonical [`data/lifecycle.json`](data/lifecycle.json).
+
+The maintainer workflow fetches only the three configured provider-owned pages each week. It verifies that every current ID, shutdown date, and replacement remains represented and compares semantic model/date fingerprints. Drift opens one refreshable GitHub issue; it never rewrites lifecycle data without an official-source review.
 
 ## Inputs
 
