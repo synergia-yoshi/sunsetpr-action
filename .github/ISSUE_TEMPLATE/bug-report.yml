@@ -25,7 +25,7 @@ body:
     id: version
     attributes:
       label: SunsetPR version
-      placeholder: v0.1.7
+      placeholder: v0.2.0
     validations:
       required: true
   - type: dropdown
