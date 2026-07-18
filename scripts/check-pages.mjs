@@ -3,6 +3,7 @@ import path from "node:path";
 
 const database = JSON.parse(await readFile("data/lifecycle.json", "utf8"));
 const manifest = JSON.parse(await readFile("_site/pages-manifest.json", "utf8"));
+const googleSiteVerification = "g3p4aBhy-QisDBolUrs_oDS-nZnFvnbovM47ibKSaK8";
 const expectedUrls = database.entries.length + database.apiDeprecations.length + 3;
 if (
   manifest.entries !== database.entries.length ||
@@ -16,6 +17,15 @@ const sitemap = await readFile("_site/sitemap.xml", "utf8");
 const locations = sitemap.match(/<loc>/gu) ?? [];
 if (locations.length !== expectedUrls) {
   throw new Error(`Expected ${expectedUrls} sitemap URLs; received ${locations.length}`);
+}
+
+const home = await readFile("_site/index.html", "utf8");
+if (
+  !home.includes(
+    `<meta name="google-site-verification" content="${googleSiteVerification}">`,
+  )
+) {
+  throw new Error("Homepage is missing Google Search Console verification metadata");
 }
 
 for (const entry of database.apiDeprecations) {

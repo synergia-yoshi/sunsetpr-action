@@ -6,6 +6,7 @@ const baseUrl = "https://synergia-yoshi.github.io/sunsetpr-action";
 const actionUrl = "https://github.com/synergia-yoshi/sunsetpr-action";
 const demoPrUrl = "https://github.com/synergia-yoshi/sunsetpr-demo/pull/2";
 const socialImageUrl = `${baseUrl}/assets/og.png`;
+const googleSiteVerification = "g3p4aBhy-QisDBolUrs_oDS-nZnFvnbovM47ibKSaK8";
 const privateBetaUrl =
   "mailto:katsumi@synergia-hub.com?subject=SunsetPR%20Repair%20beta%20request&body=Please%20do%20not%20include%20source%20code%2C%20secrets%2C%20or%20environment%20values.%0A%0AProviders%3A%0ALanguages%3A%0ARepository%20count%3A%0APublic%20or%20private%3A";
 const database = JSON.parse(await readFile("data/lifecycle.json", "utf8"));
@@ -38,6 +39,7 @@ function shell({ title, description, canonical, body, relativeRoot = "" }) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="${googleSiteVerification}">
   <title>${html(title)}</title>
   <meta name="description" content="${html(description)}">
   <link rel="canonical" href="${html(canonical)}">
