@@ -24,7 +24,7 @@ outputs:
   deprecated:
     description: Number of references to deprecated models
   safe-auto-fixes:
-    description: Number of findings with a high-confidence official replacement
+    description: Number of findings with high-confidence code context and official replacement
   report:
     description: Absolute path to the generated JSON report
 runs:

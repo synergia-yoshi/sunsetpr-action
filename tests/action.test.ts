@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderActionSummary } from "../src/action.js";
+import { renderActionSummary, resolveReportPath } from "../src/action.js";
 import { loadDatabase } from "../src/database.js";
 import { scanRepository } from "../src/scanner.js";
 
@@ -18,6 +18,16 @@ test("detects known IDs and preserves dynamic model uncertainty", async () => {
   assert.equal(report.summary.safeAutoFixes, 1);
   const summary = renderActionSummary(report);
   assert.match(summary, /official/);
+  assert.match(summary, /Detection confidence/);
+  assert.match(summary, /code-context and official-replacement gates/);
   assert.match(summary, /Runtime confirmation required/);
   assert.match(summary, /repair PR/);
+});
+
+test("rejects report paths that could inject GitHub output records", () => {
+  assert.throws(
+    () => resolveReportPath(".sunsetpr/report.json\nunexpected=value"),
+    /must not contain newline/,
+  );
+  assert.match(resolveReportPath(".sunsetpr/report.json"), /report\.json$/);
 });

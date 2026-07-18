@@ -71,7 +71,7 @@ The maintainer workflow fetches only the three configured provider-owned pages e
 | `runtime-checks` | Dynamic values that static analysis could not resolve |
 | `retired` | References to models already shut down |
 | `deprecated` | References to models with an announced shutdown |
-| `safe-auto-fixes` | Findings with a high-confidence official replacement |
+| `safe-auto-fixes` | Findings with both high-confidence code context and official replacement |
 | `report` | Absolute path to the JSON report |
 
 ## Security and privacy
@@ -90,7 +90,7 @@ The checked-in bundle is built from the checked-in TypeScript source. See [DATA-
 
 Static analysis cannot prove the deployed value of an environment variable, a database lookup, a remote feature flag, or an arbitrary computed expression. These cases are surfaced as “runtime confirmation required.”
 
-An official replacement can still differ in behavior, quality, latency, price, token limits, or supported parameters. The free Action does not edit code. Replacement confidence is separate from detection confidence, and preview or ambiguous successors are not considered safe automatic fixes.
+An official replacement can still differ in behavior, quality, latency, price, token limits, or supported parameters. The free Action does not edit code. Detection confidence is separate from replacement confidence; both must be high before the repair product considers a finding eligible for a deterministic edit. Preview or ambiguous successors are not considered safe automatic fixes.
 
 The published benchmark contains 230 labeled positive and 230 labeled negative synthetic cases and currently measures 100% recall and 0% false-positive rate. It is a reproducible regression suite, not a claim about all real repositories.
 

@@ -52,6 +52,13 @@ function workflowCommandMessage(value: string): string {
   return value.replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A");
 }
 
+export function resolveReportPath(input: string): string {
+  if (/[\r\n]/u.test(input)) {
+    throw new Error("Report path must not contain newline characters");
+  }
+  return path.resolve(input);
+}
+
 export function renderAnnotation(finding: Finding): string {
   const level =
     finding.kind === "runtime_check"
@@ -75,7 +82,7 @@ export function renderActionSummary(report: ScanReport): string {
   const rows = modelFindings
     .map(
       (finding) =>
-        `| ${finding.status === "retired" ? "🔴 retired" : "🟠 deprecated"} | ${escapeMarkdown(finding.provider)} | ${inlineCode(finding.modelId)} | ${inlineCode(finding.replacement)} | ${finding.shutdownDate} | ${escapeMarkdown(finding.replacementConfidence)} | [official](${finding.sourceUrl}) | ${inlineCode(`${finding.location.path}:${finding.location.line}`)} |`,
+        `| ${finding.status === "retired" ? "🔴 retired" : "🟠 deprecated"} | ${escapeMarkdown(finding.provider)} | ${inlineCode(finding.modelId)} | ${inlineCode(finding.replacement)} | ${finding.shutdownDate} | ${escapeMarkdown(finding.confidence)} | ${escapeMarkdown(finding.replacementConfidence)} | [official](${finding.sourceUrl}) | ${inlineCode(`${finding.location.path}:${finding.location.line}`)} |`,
     )
     .join("\n");
   const runtimeRows = report.findings
@@ -91,11 +98,11 @@ export function renderActionSummary(report: ScanReport): string {
 
   return `## SunsetPR model lifecycle check
 
-${modelFindings.length === 0 ? "✅ No known deprecated or retired model IDs were found." : `Found **${modelFindings.length}** model reference(s): **${report.summary.retired} retired**, **${report.summary.deprecated} deprecated**. **${report.summary.safeAutoFixes}** have a high-confidence official replacement.`}
+${modelFindings.length === 0 ? "✅ No known deprecated or retired model IDs were found." : `Found **${modelFindings.length}** model reference(s): **${report.summary.retired} retired**, **${report.summary.deprecated} deprecated**. **${report.summary.safeAutoFixes}** meet both the high-confidence code-context and official-replacement gates.`}
 
-| Status | Provider | Model | Official replacement | Shutdown | Replacement confidence | Evidence | Location |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-${rows || "| ✅ clear | — | — | — | — | — | — | — |"}
+| Status | Provider | Model | Official replacement | Shutdown | Detection confidence | Replacement confidence | Evidence | Location |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+${rows || "| ✅ clear | — | — | — | — | — | — | — | — |"}
 ${runtimeRows ? `\n### Runtime confirmation required\n\nStatic analysis could not resolve these values. SunsetPR does **not** classify them as unaffected.\n\n${runtimeRows}\n` : ""}
 ${limitationRows ? `\n### Scan limitations\n\n${limitationRows}\n` : ""}
 ### Scope and data handling
@@ -110,7 +117,7 @@ ${modelFindings.length > 0 ? `\n[Request a CI-verified draft repair PR](${REPAIR
 
 export async function main(): Promise<void> {
   const root = path.resolve(process.env.INPUT_PATH ?? ".");
-  const reportPath = path.resolve(process.env.INPUT_REPORT ?? ".sunsetpr/report.json");
+  const reportPath = resolveReportPath(process.env.INPUT_REPORT ?? ".sunsetpr/report.json");
   const failOn = process.env["INPUT_FAIL-ON"] ?? "deprecated";
   if (!FAIL_THRESHOLDS.has(failOn)) {
     throw new Error(`Invalid fail-on value "${failOn}"; expected never, deprecated, or retired`);
