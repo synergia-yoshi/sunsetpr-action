@@ -1,0 +1,62 @@
+name: Bug report
+description: Report a false positive, missed supported model reference, or Action failure.
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste private source code, credentials, environment values, customer data, or full CI logs. Reduce the problem to a minimal synthetic example before posting.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Problem type
+      options:
+        - False positive
+        - Missed supported model reference
+        - Runtime confirmation classification
+        - Action execution failure
+        - Lifecycle data issue
+        - Documentation issue
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SunsetPR version
+      placeholder: v0.1.3
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language or config format
+      options:
+        - TypeScript / JavaScript
+        - Python
+        - JSON / YAML / TOML / INI / ENV
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal synthetic reproduction
+      description: Use placeholder values and the smallest non-proprietary snippet that demonstrates the problem.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I removed code, logs, credentials, environment values, and customer data that should not be public.
+          required: true

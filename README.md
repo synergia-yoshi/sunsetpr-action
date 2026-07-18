@@ -1,5 +1,9 @@
 # SunsetPR AI Model Lifecycle Check
 
+[![Test](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/test.yml/badge.svg)](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/test.yml)
+[![Latest release](https://img.shields.io/github/v/release/synergia-yoshi/sunsetpr-action)](https://github.com/synergia-yoshi/sunsetpr-action/releases/latest)
+[![License](https://img.shields.io/github/license/synergia-yoshi/sunsetpr-action)](LICENSE)
+
 Catch deprecated OpenAI, Anthropic, and Google Gemini model IDs in CI before their shutdown date.
 
 SunsetPR reports the exact file and line, the provider's recommended replacement, the shutdown date, replacement confidence, and a link to the official provider documentation. Dynamic model selection is never reported as “unaffected”; it is marked for runtime confirmation.
