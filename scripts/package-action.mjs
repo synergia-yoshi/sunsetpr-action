@@ -26,9 +26,11 @@ const source = path.resolve(
 const destination = path.resolve("dist/action/python-parser/parser.so");
 await mkdir(path.dirname(destination), { recursive: true });
 await copyFile(source, destination);
+await copyFile("scripts/action-runner.mjs", "dist/action/runner.js");
 
 const assets = [
   path.resolve("dist/action/index.js"),
+  path.resolve("dist/action/runner.js"),
   destination,
   ...(await import("node:fs/promises").then(({ readdir }) => readdir("dist/action")))
     .filter((name) => name.endsWith(".node"))

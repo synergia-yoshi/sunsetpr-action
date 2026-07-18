@@ -30,7 +30,7 @@ outputs:
     description: Absolute path to the generated JSON report
 runs:
   using: node24
-  main: dist/action/index.js
+  main: dist/action/runner.js
 branding:
   icon: alert-triangle
   color: orange

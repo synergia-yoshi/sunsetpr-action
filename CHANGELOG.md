@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — 2026-07-19
+
+- Fix the bundled native AST parser bootstrap on GitHub-hosted Linux runners.
+- Validate bundled native and Python parser assets before starting analysis.
+
 ## 0.1.0 — 2026-07-19
 
 - Detect 99 exact OpenAI, Anthropic, and Gemini deprecated or retired model IDs and aliases.
