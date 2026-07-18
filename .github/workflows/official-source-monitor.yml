@@ -1,0 +1,37 @@
+name: Official source monitor
+
+on:
+  schedule:
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify official lifecycle pages
+        id: sources
+        continue-on-error: true
+        run: npm run sources:check
+      - name: Open or refresh drift issue
+        if: steps.sources.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          issue_number="$(gh issue list --label lifecycle-drift --state open --limit 1 --json number --jq '.[0].number // empty')"
+          if [ -n "$issue_number" ]; then
+            gh issue edit "$issue_number" --body-file .sunsetpr/official-source-check.md
+          else
+            gh issue create --title "[Lifecycle source drift] Official provider page changed" --label lifecycle-drift --body-file .sunsetpr/official-source-check.md
+          fi
+          exit 1

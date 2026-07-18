@@ -12,6 +12,8 @@
     "test": "npm run build && node --test dist/tests/*.test.js",
     "catalog:generate": "node scripts/generate-lifecycle-catalog.mjs",
     "catalog:check": "node scripts/generate-lifecycle-catalog.mjs --check",
+    "sources:baseline": "node scripts/verify-official-sources.mjs --write-baseline",
+    "sources:check": "node scripts/verify-official-sources.mjs",
     "package": "npm run build && ncc build dist/src/action.js -o dist/action --minify --source-map && node scripts/package-action.mjs"
   },
   "dependencies": {
