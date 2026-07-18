@@ -27,7 +27,7 @@ function verificationTable(steps: VerificationStep[]): string {
 
 export function renderScanText(report: ScanReport): string {
   const lines = [
-    `SunsetPR scanned ${report.filesScanned} files (${report.summary.filesSkipped} skipped): ${report.summary.modelReferences} model reference(s), ${report.summary.runtimeChecks} runtime check(s).`,
+    `SunsetPR scanned ${report.filesScanned} files (${report.summary.filesSkipped} skipped): ${report.summary.modelReferences} model reference(s), ${report.summary.apiDeprecations} API deprecation(s), ${report.summary.runtimeChecks} runtime check(s).`,
   ];
   for (const limitation of report.limitations) {
     lines.push(`LIMIT ${limitation.path} ${limitation.reason}`);
@@ -36,6 +36,10 @@ export function renderScanText(report: ScanReport): string {
     if (finding.kind === "model_reference") {
       lines.push(
         `${finding.status === "retired" ? "ERROR" : "WARN"} ${finding.location.path}:${finding.location.line}:${finding.location.column} ${finding.modelId} -> ${finding.replacement} (${finding.shutdownDate}, ${finding.confidence})`,
+      );
+    } else if (finding.kind === "api_deprecation") {
+      lines.push(
+        `WARN ${finding.location.path}:${finding.location.line}:${finding.location.column} ${finding.apiId} -> ${finding.replacement ?? "no official replacement listed"} (${finding.shutdownDate}, ${finding.confidence})`,
       );
     } else {
       lines.push(

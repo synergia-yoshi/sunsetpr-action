@@ -1,7 +1,31 @@
 {
   "$schema": "./lifecycle.schema.json",
-  "version": 3,
+  "version": 4,
   "checkedAt": "2026-07-19",
+  "apiDeprecations": [
+    {
+      "provider": "openai",
+      "apiId": "assistants-api",
+      "apiName": "Assistants API",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-26",
+      "replacement": "Responses API and Conversations API",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "sdk": "OpenAI Assistants",
+      "notes": "Report only; the stateful Assistants migration is not a safe model-ID substitution."
+    },
+    {
+      "provider": "openai",
+      "apiId": "videos-api",
+      "apiName": "Videos API",
+      "status": "deprecated",
+      "shutdownDate": "2026-09-24",
+      "replacement": null,
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "sdk": "OpenAI Videos",
+      "notes": "The official deprecations page lists no replacement; never infer one."
+    }
+  ],
   "entries": [
     {
       "provider": "openai",

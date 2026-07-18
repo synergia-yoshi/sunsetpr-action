@@ -2,10 +2,44 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SunsetPR lifecycle database",
   "type": "object",
-  "required": ["version", "checkedAt", "entries"],
+  "required": ["version", "checkedAt", "apiDeprecations", "entries"],
   "properties": {
     "version": { "type": "integer", "minimum": 1 },
     "checkedAt": { "type": "string", "format": "date" },
+    "apiDeprecations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "apiId",
+          "apiName",
+          "status",
+          "shutdownDate",
+          "replacement",
+          "sourceUrl",
+          "sdk",
+          "notes"
+        ],
+        "properties": {
+          "provider": { "const": "openai" },
+          "apiId": { "enum": ["assistants-api", "videos-api"] },
+          "apiName": { "enum": ["Assistants API", "Videos API"] },
+          "status": { "const": "deprecated" },
+          "shutdownDate": { "type": "string", "format": "date" },
+          "replacement": {
+            "anyOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "null" }
+            ]
+          },
+          "sourceUrl": { "type": "string", "format": "uri" },
+          "sdk": { "enum": ["OpenAI Assistants", "OpenAI Videos"] },
+          "notes": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "entries": {
       "type": "array",
       "items": {

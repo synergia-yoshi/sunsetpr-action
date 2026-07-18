@@ -157,6 +157,9 @@ for (const [provider, definition] of Object.entries(sources)) {
     const source = await fetchOfficialSource(provider, definition);
     const signals = fingerprint(source.html, definition.tokenPattern);
     const entries = database.entries.filter((entry) => entry.provider === provider);
+    const apiEntries = (database.apiDeprecations ?? []).filter(
+      (entry) => entry.provider === provider,
+    );
     const missingModels = entries
       .filter((entry) => !source.html.includes(entry.modelId))
       .map((entry) => entry.modelId);
@@ -166,6 +169,15 @@ for (const [provider, definition] of Object.entries(sources)) {
     const missingReplacements = entries
       .filter((entry) => !source.html.includes(entry.replacement))
       .map((entry) => `${entry.modelId}: ${entry.replacement}`);
+    const missingApiNames = apiEntries
+      .filter((entry) => !source.html.includes(entry.apiName))
+      .map((entry) => entry.apiName);
+    const missingApiDates = apiEntries
+      .filter((entry) => !sourceRepresentsDate(source.html, entry.shutdownDate))
+      .map((entry) => `${entry.apiName}: ${entry.shutdownDate}`);
+    const missingApiReplacements = apiEntries
+      .filter((entry) => entry.replacement && !source.html.includes(entry.replacement))
+      .map((entry) => `${entry.apiName}: ${entry.replacement}`);
     const previous = baseline?.providers?.[provider];
     const tokenDrift = differences(signals.modelTokens, previous?.modelTokens ?? []);
     const dateDrift = differences(signals.dates, previous?.dates ?? []);
@@ -176,7 +188,12 @@ for (const [provider, definition] of Object.entries(sources)) {
         dateDrift.added.length > 0 ||
         dateDrift.removed.length > 0);
     const coverageFailure =
-      missingModels.length > 0 || missingDates.length > 0 || missingReplacements.length > 0;
+      missingModels.length > 0 ||
+      missingDates.length > 0 ||
+      missingReplacements.length > 0 ||
+      missingApiNames.length > 0 ||
+      missingApiDates.length > 0 ||
+      missingApiReplacements.length > 0;
     if ((!writeBaseline && !previous) || baselineDrift || coverageFailure) {
       failed = true;
     }
@@ -192,11 +209,15 @@ for (const [provider, definition] of Object.entries(sources)) {
       "",
       `- HTTP body: ${source.bytes} bytes`,
       `- Database entries represented: ${entries.length - missingModels.length}/${entries.length}`,
+      `- API entries represented: ${apiEntries.length - missingApiNames.length}/${apiEntries.length}`,
       `- Semantic signals: ${signals.modelTokens.length} model-like tokens, ${signals.dates.length} ISO dates`,
       `- Baseline: ${previous ? (baselineDrift ? "changed — review required" : "unchanged") : "missing — generate and review"}`,
       `- Missing model IDs: ${bulletValues(missingModels)}`,
       `- Missing shutdown dates: ${bulletValues(missingDates)}`,
       `- Missing replacements: ${bulletValues(missingReplacements)}`,
+      `- Missing API names: ${bulletValues(missingApiNames)}`,
+      `- Missing API shutdown dates: ${bulletValues(missingApiDates)}`,
+      `- Missing API replacements: ${bulletValues(missingApiReplacements)}`,
       `- Added model-like tokens: ${bulletValues(tokenDrift.added)}`,
       `- Removed model-like tokens: ${bulletValues(tokenDrift.removed)}`,
       `- Added dates: ${bulletValues(dateDrift.added)}`,

@@ -10,7 +10,7 @@ async function writeDatabase(entries: unknown[]): Promise<string> {
   const databasePath = path.join(directory, "lifecycle.json");
   await writeFile(
     databasePath,
-    `${JSON.stringify({ version: 1, checkedAt: "2026-07-19", entries })}\n`,
+    `${JSON.stringify({ version: 1, checkedAt: "2026-07-19", apiDeprecations: [], entries })}\n`,
     "utf8",
   );
   return databasePath;

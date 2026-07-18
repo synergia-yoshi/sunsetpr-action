@@ -4,7 +4,10 @@
 
 The free Action executes on the repository's GitHub Actions runner. SunsetPR does not operate an API endpoint in this path.
 
-It reads supported source and configuration files to locate exact known model IDs and unresolved model expressions. It writes a JSON report, GitHub workflow annotations, and a Job Summary inside the same workflow run. It does not send repository content, findings, secrets, or environment-variable values to SunsetPR or to an external AI model.
+It reads supported source and configuration files to locate exact known model IDs, selected
+deprecated API call shapes, and unresolved model expressions. It writes a JSON report, GitHub
+workflow annotations, and a Job Summary inside the same workflow run. It does not send repository
+content, findings, secrets, or environment-variable values to SunsetPR or to an external AI model.
 
 GitHub processes workflow source, logs, summaries, and artifacts under the repository owner's GitHub agreement and settings. Repository owners control workflow and artifact retention.
 

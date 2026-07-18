@@ -5,6 +5,18 @@
 - Pin every third-party GitHub Actions workflow dependency to a full commit SHA.
 - Complete the historical changelog and refresh support-form wording.
 
+## 0.2.0 — 2026-07-19
+
+- Detect OpenAI Assistants API calls with the official 2026-08-26 shutdown and Responses API plus
+  Conversations API migration path.
+- Detect OpenAI Videos API calls with the official 2026-09-24 shutdown and preserve the absence of
+  an official replacement.
+- Publish API lifecycle entries in the machine-readable database, official-source monitor, JSON
+  output, annotations, Job Summary, and crawlable shutdown pages.
+- Add a fixed-commit public regression sample covering 56 Assistants API call sites in 8 files.
+- Resolve safe single-use TypeScript constants and legacy Gemini Python positional model calls.
+- Keep mutable, conditional, shorthand, and environment-backed model values explicitly unconfirmed.
+
 ## 0.1.7 — 2026-07-19
 
 - Recognize the official OpenAI `beta.chat.completions.runTools` helper as a high-confidence SDK context.

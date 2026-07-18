@@ -1,5 +1,5 @@
 name: SunsetPR AI Model Lifecycle Check
-description: Detect deprecated OpenAI, Anthropic, and Gemini model IDs with official evidence.
+description: Detect deprecated OpenAI, Anthropic, and Gemini model IDs and API surfaces with official evidence.
 author: SunsetPR
 inputs:
   path:
@@ -19,6 +19,8 @@ outputs:
     description: Number of model findings
   runtime-checks:
     description: Number of unresolved dynamic model references
+  api-deprecations:
+    description: Number of deprecated API surface findings
   retired:
     description: Number of references to retired models
   deprecated:

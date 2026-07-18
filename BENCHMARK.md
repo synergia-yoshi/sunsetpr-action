@@ -44,3 +44,7 @@ npm run benchmark
 - languages, providers, SDK shapes, or runner platforms outside the published support scope
 
 Real-repository evaluation must be reported separately from this synthetic corpus. SunsetPR does not combine the public demo result with these 460 labels to inflate a success rate.
+
+API-surface detection uses a separate fixed-commit positive sample. See
+[API-DEPRECATION-EVALUATION.md](API-DEPRECATION-EVALUATION.md); its 56 call sites are not added to
+this model-ID confusion matrix.

@@ -41,10 +41,12 @@ jobs:
       - name: Verify Action contract
         env:
           FINDINGS: ${{ steps.sunsetpr.outputs.findings }}
+          API_DEPRECATIONS: ${{ steps.sunsetpr.outputs['api-deprecations'] }}
           RUNTIME_CHECKS: ${{ steps.sunsetpr.outputs['runtime-checks'] }}
           SAFE_AUTO_FIXES: ${{ steps.sunsetpr.outputs['safe-auto-fixes'] }}
         run: |
           test "$FINDINGS" = "1"
+          test "$API_DEPRECATIONS" = "0"
           test "$RUNTIME_CHECKS" = "1"
           test "$SAFE_AUTO_FIXES" = "1"
-          node -e 'const report = require("./.sunsetpr/report.json"); if (report.summary.modelReferences !== 1 || report.summary.runtimeChecks !== 1) process.exit(1)'
+          node -e 'const report = require("./.sunsetpr/report.json"); if (report.summary.modelReferences !== 1 || report.summary.apiDeprecations !== 0 || report.summary.runtimeChecks !== 1) process.exit(1)'
