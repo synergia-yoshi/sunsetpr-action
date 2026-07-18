@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Pin every third-party GitHub Actions workflow dependency to a full commit SHA.
+- Complete the historical changelog and refresh support-form wording.
+
 ## 0.1.7 — 2026-07-19
 
 - Recognize the official OpenAI `beta.chat.completions.runTools` helper as a high-confidence SDK context.

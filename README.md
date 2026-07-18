@@ -86,6 +86,7 @@ The maintainer workflow fetches only the three configured provider-owned pages e
 - Symlinks and common generated, dependency, VCS, and virtual-environment directories are skipped.
 - Individual files over 2 MiB are reported as limitations; the scan is bounded to 25,000 supported files and 100 MiB.
 - Automatic merge and deployment are not part of this Action.
+- Repository build, Pages, artifact, and CodeQL workflow dependencies are pinned to full commit SHAs.
 
 The checked-in bundle is built from the checked-in TypeScript source. See [DATA-HANDLING.md](DATA-HANDLING.md) and [SECURITY.md](SECURITY.md).
 
