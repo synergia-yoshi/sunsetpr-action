@@ -1,5 +1,5 @@
 name: Request repair beta
-description: Apply for a CI-verified draft migration PR. Do not include private code or secrets.
+description: Apply for an evidence-backed draft migration PR. Do not include private code or secrets.
 title: "[Repair beta] "
 labels:
   - repair-beta
