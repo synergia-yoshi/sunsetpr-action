@@ -3,6 +3,7 @@ import path from "node:path";
 import { analyzeCode, analyzeConfig } from "./analyzer.js";
 import { listSupportedFiles } from "./files.js";
 import type { Finding, LifecycleDatabase, ScanReport } from "./types.js";
+import { TOOL_VERSION } from "./version.js";
 
 const MAX_SUPPORTED_FILES = 25_000;
 const MAX_FILE_BYTES = 2 * 1024 * 1024;
@@ -69,7 +70,7 @@ export async function scanRepository(
   const modelFindings = findings.filter((finding) => finding.kind === "model_reference");
   return {
     schemaVersion: 1,
-    toolVersion: "0.1.0",
+    toolVersion: TOOL_VERSION,
     databaseVersion: database.version,
     databaseCheckedAt: database.checkedAt,
     scannedAt: new Date().toISOString(),

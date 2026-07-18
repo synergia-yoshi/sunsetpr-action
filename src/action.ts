@@ -110,7 +110,7 @@ ${limitationRows ? `\n### Scan limitations\n\n${limitationRows}\n` : ""}
 - Scanned ${report.filesScanned} TypeScript, JavaScript, Python, and supported config file(s) locally on this runner.
 - Model values that are dynamic or environment-backed remain explicitly unconfirmed.
 - No repository code or environment values are sent to SunsetPR or to an external AI model.
-- Lifecycle database checked **${report.databaseCheckedAt}** against provider documentation.
+- SunsetPR Action **v${report.toolVersion}**; lifecycle database checked **${report.databaseCheckedAt}** against provider documentation.
 ${modelFindings.length > 0 ? `\n[Request a CI-verified draft repair PR](${REPAIR_BETA_URL}) — early access; no automatic merge.\n` : ""}
 `;
 }

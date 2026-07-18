@@ -1,6 +1,6 @@
 {
   "name": "sunsetpr-action",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Detect deprecated OpenAI, Anthropic, and Gemini model IDs in GitHub Actions.",
   "type": "module",
   "engines": {
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "version:check": "node scripts/check-version.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test dist/tests/*.test.js",
     "benchmark:generate": "node scripts/generate-benchmark-fixtures.mjs",

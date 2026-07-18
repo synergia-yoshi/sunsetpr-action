@@ -13,11 +13,13 @@ test("ships a current validated lifecycle database", async () => {
 
 test("detects known IDs and preserves dynamic model uncertainty", async () => {
   const report = await scanRepository("test-fixture", await loadDatabase());
+  assert.equal(report.toolVersion, "0.1.5");
   assert.equal(report.summary.modelReferences, 1);
   assert.equal(report.summary.runtimeChecks, 1);
   assert.equal(report.summary.safeAutoFixes, 1);
   const summary = renderActionSummary(report);
   assert.match(summary, /official/);
+  assert.match(summary, /v0\.1\.5/);
   assert.match(summary, /Detection confidence/);
   assert.match(summary, /code-context and official-replacement gates/);
   assert.match(summary, /Runtime confirmation required/);
