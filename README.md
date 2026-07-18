@@ -9,7 +9,7 @@ Catch deprecated OpenAI, Anthropic, and Google Gemini model IDs in CI before the
 
 SunsetPR reports the exact file and line, the provider's recommended replacement, the shutdown date, replacement confidence, and a link to the official provider documentation. Dynamic model selection is never reported as “unaffected”; it is marked for runtime confirmation.
 
-**Proof, not a screenshot:** inspect the [successful v0.1.3 demo scan](https://github.com/synergia-yoshi/sunsetpr-demo/actions/runs/29653331820) and the [draft repair PR it complements](https://github.com/synergia-yoshi/sunsetpr-demo/pull/2). The PR shows the generated diff, migration invariants, official evidence, skipped checks, and repository CI in public.
+**Proof, not a screenshot:** inspect the [public demo scan workflow](https://github.com/synergia-yoshi/sunsetpr-demo/actions/workflows/sunsetpr.yml) and the [draft repair PR it complements](https://github.com/synergia-yoshi/sunsetpr-demo/pull/2). The PR shows the generated diff, migration invariants, official evidence, skipped checks, and repository CI in public.
 
 ## Start in one minute
 
@@ -108,6 +108,6 @@ The `v0` release is packaged and tested for GitHub-hosted `ubuntu-latest` runner
 
 ## Versioning
 
-Pin `@v0` for compatible updates during the public beta, or pin a full release such as `@v0.1.3` for an immutable review target. Release notes document lifecycle-data and scanner changes.
+Pin `@v0` for compatible updates during the public beta, or pin the full immutable release `@v0.1.4` for a fixed review target. Release notes document lifecycle-data and scanner changes.
 
 Apache-2.0. SunsetPR is independent of OpenAI, Anthropic, Google, and GitHub.
