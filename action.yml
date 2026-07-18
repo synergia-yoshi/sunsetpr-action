@@ -1,0 +1,36 @@
+name: SunsetPR AI Model Lifecycle Check
+description: Detect deprecated OpenAI, Anthropic, and Gemini model IDs with official evidence.
+author: SunsetPR
+inputs:
+  path:
+    description: Repository path to scan
+    required: false
+    default: "."
+  fail-on:
+    description: "Failure threshold: never, deprecated, or retired"
+    required: false
+    default: "deprecated"
+  report:
+    description: JSON report path
+    required: false
+    default: ".sunsetpr/report.json"
+outputs:
+  findings:
+    description: Number of model findings
+    value: ${{ steps.scan.outputs.findings }}
+  runtime-checks:
+    description: Number of unresolved dynamic model references
+  retired:
+    description: Number of references to retired models
+  deprecated:
+    description: Number of references to deprecated models
+  safe-auto-fixes:
+    description: Number of findings with a high-confidence official replacement
+  report:
+    description: Absolute path to the generated JSON report
+runs:
+  using: node24
+  main: dist/action/index.js
+branding:
+  icon: alert-triangle
+  color: orange

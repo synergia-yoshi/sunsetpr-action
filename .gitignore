@@ -1,0 +1,7 @@
+node_modules/
+dist/src/
+dist/tests/
+.sunsetpr/
+*.log
+.DS_Store
+dist/action/ast-grep-napi.darwin-*.node

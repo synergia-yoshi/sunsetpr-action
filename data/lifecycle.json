@@ -1,0 +1,997 @@
+{
+  "$schema": "./lifecycle.schema.json",
+  "version": 2,
+  "checkedAt": "2026-07-19",
+  "entries": [
+    {
+      "provider": "openai",
+      "modelId": "gpt-5.2-chat-latest",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-10",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5.3-chat-latest",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-10",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "computer-use-preview-2025-03-11",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model; tool behavior still requires compatibility tests."
+    },
+    {
+      "provider": "openai",
+      "modelId": "computer-use-preview",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4o-mini-search-preview-2025-03-11",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model; search tool behavior requires compatibility tests."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4o-search-preview-2025-03-11",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model; search tool behavior requires compatibility tests."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4o-mini-tts-2025-03-20",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-4o-mini-tts-2025-12-15",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official same-modality substitute snapshot."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5-chat-latest",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5-codex",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5.1-chat-latest",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5.1-codex",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5.1-codex-max",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5.1-codex-mini",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-5.2-codex",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-audio-mini-2025-10-06",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-audio-1.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official audio substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-realtime-mini-2025-10-06",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-realtime-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official realtime substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o3-deep-research-2025-06-26",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5-pro",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o3-deep-research",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5-pro",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o4-mini-deep-research-2025-06-26",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5-pro",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o4-mini-deep-research",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-23",
+      "replacement": "gpt-5.5-pro",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-3.5-turbo-instruct",
+      "status": "deprecated",
+      "shutdownDate": "2026-09-28",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official table lists gpt-5.4-mini or gpt-5-mini; report only by default."
+    },
+    {
+      "provider": "openai",
+      "modelId": "babbage-002",
+      "status": "deprecated",
+      "shutdownDate": "2026-09-28",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official table lists gpt-5.4-mini or gpt-5-mini; report only by default."
+    },
+    {
+      "provider": "openai",
+      "modelId": "davinci-002",
+      "status": "deprecated",
+      "shutdownDate": "2026-09-28",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official table lists gpt-5.4-mini or gpt-5-mini; report only by default."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-3.5-turbo-1106",
+      "status": "deprecated",
+      "shutdownDate": "2026-09-28",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official table lists gpt-5.4-mini or gpt-5-mini; report only by default."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-3.5-turbo-0125",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-3.5-turbo",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-3.5-turbo-completions",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4-0613",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4-0613-completions",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4-completions",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4-1106-preview",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "The April 22, 2026 table provides the current later shutdown date."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4-turbo",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model; behavior still requires customer tests."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4-turbo-2024-04-09",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Snapshot listed with the deprecated alias in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4-turbo-completions",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4.1-nano",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.4-nano",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4.1-nano-2025-04-14",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.4-nano",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Snapshot listed with the deprecated alias in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4o-2024-05-13",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-image-1",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-image-2",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official image substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o1-2024-12-17",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o1",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o1-pro-2025-03-19",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5-pro",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o1-pro",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5-pro",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o3-mini-2025-01-31",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o3-mini",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.5",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o4-mini-2025-04-16",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "o4-mini",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-23",
+      "replacement": "gpt-5.4-mini",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Alias listed with the deprecated snapshot in the official table."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-image-1-mini",
+      "status": "deprecated",
+      "shutdownDate": "2026-12-01",
+      "replacement": "gpt-image-2",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official image substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-image-1.5",
+      "status": "deprecated",
+      "shutdownDate": "2026-12-01",
+      "replacement": "gpt-image-2",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official image substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "chatgpt-image-latest",
+      "status": "deprecated",
+      "shutdownDate": "2026-12-01",
+      "replacement": "gpt-image-2",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official image substitute model."
+    },
+    {
+      "provider": "openai",
+      "modelId": "gpt-4.5-preview",
+      "status": "retired",
+      "shutdownDate": "2025-07-14",
+      "replacement": "gpt-4.1",
+      "sourceUrl": "https://developers.openai.com/api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Historical entry retained for regression coverage."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-mythos-preview",
+      "status": "deprecated",
+      "shutdownDate": "2026-07-21",
+      "replacement": "claude-mythos-5",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official model-status notice and migration target."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-opus-4-1-20250805",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-05",
+      "replacement": "claude-opus-4-8",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-sonnet-4-20250514",
+      "status": "retired",
+      "shutdownDate": "2026-06-15",
+      "replacement": "claude-sonnet-4-6",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-opus-4-20250514",
+      "status": "retired",
+      "shutdownDate": "2026-06-15",
+      "replacement": "claude-opus-4-8",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-3-haiku-20240307",
+      "status": "retired",
+      "shutdownDate": "2026-04-20",
+      "replacement": "claude-haiku-4-5-20251001",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-3-5-haiku-20241022",
+      "status": "retired",
+      "shutdownDate": "2026-02-19",
+      "replacement": "claude-haiku-4-5-20251001",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-3-7-sonnet-20250219",
+      "status": "retired",
+      "shutdownDate": "2026-02-19",
+      "replacement": "claude-sonnet-4-6",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-3-5-sonnet-20240620",
+      "status": "retired",
+      "shutdownDate": "2025-10-28",
+      "replacement": "claude-sonnet-4-6",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-3-5-sonnet-20241022",
+      "status": "retired",
+      "shutdownDate": "2025-10-28",
+      "replacement": "claude-sonnet-4-6",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-3-opus-20240229",
+      "status": "retired",
+      "shutdownDate": "2026-01-05",
+      "replacement": "claude-opus-4-8",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-2.0",
+      "status": "retired",
+      "shutdownDate": "2025-07-21",
+      "replacement": "claude-opus-4-8",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-2.1",
+      "status": "retired",
+      "shutdownDate": "2025-07-21",
+      "replacement": "claude-opus-4-8",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "anthropic",
+      "modelId": "claude-3-sonnet-20240229",
+      "status": "retired",
+      "shutdownDate": "2025-07-21",
+      "replacement": "claude-sonnet-4-6",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "replacementConfidence": "high",
+      "notes": "Dates apply to Anthropic-operated platforms."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-3.1-flash-image-preview",
+      "status": "retired",
+      "shutdownDate": "2026-06-25",
+      "replacement": "gemini-3.1-flash-image",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-3-pro-image-preview",
+      "status": "retired",
+      "shutdownDate": "2026-06-25",
+      "replacement": "gemini-3-pro-image",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-3-pro-preview",
+      "status": "retired",
+      "shutdownDate": "2026-03-09",
+      "replacement": "gemini-3.1-pro-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-3.1-flash-lite-preview",
+      "status": "retired",
+      "shutdownDate": "2026-05-25",
+      "replacement": "gemini-3.1-flash-lite",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-pro",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-16",
+      "replacement": "gemini-3.1-pro-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-pro-preview-03-25",
+      "status": "retired",
+      "shutdownDate": "2025-12-02",
+      "replacement": "gemini-3.1-pro-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-pro-preview-05-06",
+      "status": "retired",
+      "shutdownDate": "2025-12-02",
+      "replacement": "gemini-3.1-pro-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-pro-preview-06-05",
+      "status": "retired",
+      "shutdownDate": "2025-12-02",
+      "replacement": "gemini-3.1-pro-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-flash",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-16",
+      "replacement": "gemini-3.5-flash",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-flash-image",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-02",
+      "replacement": "gemini-3.1-flash-image-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-flash-lite",
+      "status": "deprecated",
+      "shutdownDate": "2026-10-16",
+      "replacement": "gemini-3.1-flash-lite",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-flash-lite-preview-09-2025",
+      "status": "retired",
+      "shutdownDate": "2026-03-31",
+      "replacement": "gemini-3.1-flash-lite",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-flash-preview-05-20",
+      "status": "retired",
+      "shutdownDate": "2025-11-18",
+      "replacement": "gemini-3.5-flash",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-flash-image-preview",
+      "status": "retired",
+      "shutdownDate": "2026-01-15",
+      "replacement": "gemini-2.5-flash-image",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.5-flash-preview-09-25",
+      "status": "retired",
+      "shutdownDate": "2026-02-17",
+      "replacement": "gemini-3.5-flash",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash",
+      "status": "retired",
+      "shutdownDate": "2026-06-01",
+      "replacement": "gemini-3.5-flash",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash-001",
+      "status": "retired",
+      "shutdownDate": "2026-06-01",
+      "replacement": "gemini-3.5-flash",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash-lite",
+      "status": "retired",
+      "shutdownDate": "2026-06-01",
+      "replacement": "gemini-3.1-flash-lite",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash-lite-001",
+      "status": "retired",
+      "shutdownDate": "2026-06-01",
+      "replacement": "gemini-3.1-flash-lite",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash-preview-image-generation",
+      "status": "retired",
+      "shutdownDate": "2025-11-14",
+      "replacement": "gemini-2.5-flash-image",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash-lite-preview",
+      "status": "retired",
+      "shutdownDate": "2025-12-09",
+      "replacement": "gemini-2.5-flash-lite",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash-lite-preview-02-05",
+      "status": "retired",
+      "shutdownDate": "2025-12-09",
+      "replacement": "gemini-2.5-flash-lite",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Gemini dates are the earliest possible shutdown dates."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-2.0-flash-live-001",
+      "status": "retired",
+      "shutdownDate": "2025-12-09",
+      "replacement": "gemini-3.1-flash-live-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-live-2.5-flash-preview",
+      "status": "retired",
+      "shutdownDate": "2025-12-09",
+      "replacement": "gemini-3.1-flash-live-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-embedding-001",
+      "status": "retired",
+      "shutdownDate": "2026-07-14",
+      "replacement": "gemini-embedding-2",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official embedding substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "text-embedding-004",
+      "status": "retired",
+      "shutdownDate": "2026-01-14",
+      "replacement": "gemini-embedding-2",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official embedding substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "embedding-2-preview",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-10",
+      "replacement": "gemini-embedding-2",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official embedding substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "embedding-001",
+      "status": "retired",
+      "shutdownDate": "2025-10-30",
+      "replacement": "gemini-embedding-2",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official embedding substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "embedding-gecko-001",
+      "status": "retired",
+      "shutdownDate": "2025-10-30",
+      "replacement": "gemini-embedding-2",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official embedding substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-embedding-exp",
+      "status": "retired",
+      "shutdownDate": "2025-10-30",
+      "replacement": "gemini-embedding-2",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official embedding substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-embedding-exp-03-07",
+      "status": "retired",
+      "shutdownDate": "2025-10-30",
+      "replacement": "gemini-embedding-2",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official embedding substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "imagen-4.0-generate-001",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-17",
+      "replacement": "gemini-3.1-flash-image",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official image substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "imagen-4.0-ultra-generate-001",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-17",
+      "replacement": "gemini-3.1-flash-image",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official image substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "imagen-4.0-fast-generate-001",
+      "status": "deprecated",
+      "shutdownDate": "2026-08-17",
+      "replacement": "gemini-3.1-flash-image",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "high",
+      "notes": "Official image substitute model."
+    },
+    {
+      "provider": "gemini",
+      "modelId": "gemini-robotics-er-1.5-preview",
+      "status": "retired",
+      "shutdownDate": "2026-04-30",
+      "replacement": "gemini-robotics-er-1.6-preview",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "replacementConfidence": "medium",
+      "notes": "Official recommendation is a preview model; report only by default."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "sunsetpr-action",
+  "version": "0.1.0",
+  "description": "Detect deprecated OpenAI, Anthropic, and Gemini model IDs in GitHub Actions.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "package": "npm run build && ncc build dist/src/action.js -o dist/action --minify --source-map && node scripts/package-action.mjs"
+  },
+  "dependencies": {
+    "@ast-grep/lang-python": "^0.0.6",
+    "@ast-grep/napi": "0.44.1"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.1",
+    "@vercel/ncc": "0.44.1",
+    "typescript": "7.0.2"
+  },
+  "license": "Apache-2.0"
+}

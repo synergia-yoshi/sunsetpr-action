@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run package
+      - name: Run packaged Action
+        id: sunsetpr
+        uses: ./
+        with:
+          path: test-fixture
+          fail-on: never
+          report: .sunsetpr/report.json
+      - name: Verify Action contract
+        env:
+          FINDINGS: ${{ steps.sunsetpr.outputs.findings }}
+          RUNTIME_CHECKS: ${{ steps.sunsetpr.outputs['runtime-checks'] }}
+          SAFE_AUTO_FIXES: ${{ steps.sunsetpr.outputs['safe-auto-fixes'] }}
+        run: |
+          test "$FINDINGS" = "1"
+          test "$RUNTIME_CHECKS" = "1"
+          test "$SAFE_AUTO_FIXES" = "1"
+          node -e 'const report = require("./.sunsetpr/report.json"); if (report.summary.modelReferences !== 1 || report.summary.runtimeChecks !== 1) process.exit(1)'
