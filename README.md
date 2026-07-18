@@ -9,6 +9,8 @@ Catch deprecated OpenAI, Anthropic, and Google Gemini model IDs in CI before the
 
 SunsetPR reports the exact file and line, the provider's recommended replacement, the shutdown date, replacement confidence, and a link to the official provider documentation. Dynamic model selection is never reported as “unaffected”; it is marked for runtime confirmation.
 
+**Proof, not a screenshot:** inspect the [successful v0.1.3 demo scan](https://github.com/synergia-yoshi/sunsetpr-demo/actions/runs/29653331820) and the [draft repair PR it complements](https://github.com/synergia-yoshi/sunsetpr-demo/pull/2). The PR shows the generated diff, migration invariants, official evidence, skipped checks, and repository CI in public.
+
 ## Start in one minute
 
 Create `.github/workflows/model-lifecycle.yml`:
