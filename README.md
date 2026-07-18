@@ -44,6 +44,8 @@ The first run adds line annotations and a structured table to the GitHub Actions
 
 The bundled database currently contains 105 exact model IDs and aliases, checked on 2026-07-19. Provider documentation is the only source of truth.
 
+[Browse all model shutdown dates and official replacements](MODEL-LIFECYCLE.md), or consume the canonical [`data/lifecycle.json`](data/lifecycle.json).
+
 ## Inputs
 
 | Input | Default | Meaning |
