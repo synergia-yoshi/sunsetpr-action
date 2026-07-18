@@ -2,6 +2,7 @@
 
 [![Test](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/test.yml/badge.svg)](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/test.yml)
 [![Official source monitor](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/official-source-monitor.yml/badge.svg)](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/official-source-monitor.yml)
+[![CodeQL](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/codeql.yml/badge.svg)](https://github.com/synergia-yoshi/sunsetpr-action/actions/workflows/codeql.yml)
 [![Latest release](https://img.shields.io/github/v/release/synergia-yoshi/sunsetpr-action)](https://github.com/synergia-yoshi/sunsetpr-action/releases/latest)
 [![License](https://img.shields.io/github/license/synergia-yoshi/sunsetpr-action)](LICENSE)
 
