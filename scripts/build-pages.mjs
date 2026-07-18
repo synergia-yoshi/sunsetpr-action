@@ -5,6 +5,8 @@ const outputRoot = path.resolve("_site");
 const baseUrl = "https://synergia-yoshi.github.io/sunsetpr-action";
 const actionUrl = "https://github.com/synergia-yoshi/sunsetpr-action";
 const demoPrUrl = "https://github.com/synergia-yoshi/sunsetpr-demo/pull/2";
+const privateBetaUrl =
+  "mailto:katsumi@synergia-hub.com?subject=SunsetPR%20Repair%20beta%20request&body=Please%20do%20not%20include%20source%20code%2C%20secrets%2C%20or%20environment%20values.%0A%0AProviders%3A%0ALanguages%3A%0ARepository%20count%3A%0APublic%20or%20private%3A";
 const database = JSON.parse(await readFile("data/lifecycle.json", "utf8"));
 const providerLabels = {
   openai: "OpenAI",
@@ -97,6 +99,7 @@ const home = shell({
       <a class="button primary" href="${actionUrl}">Scan a repository free ↗</a>
       <a class="button" href="models/">Browse shutdown dates</a>
       <a class="button" href="${demoPrUrl}">Inspect the real draft PR ↗</a>
+      <a class="button" href="${privateBetaUrl}">Request repair beta privately</a>
     </div>
     <p class="disclaimer">Provider documentation is the source of truth. The public Action sends no repository code to SunsetPR or an external AI model.</p>
   </div>
@@ -196,7 +199,7 @@ for (const entry of database.entries) {
   </dl>
   <section class="evidence"><p class="tag">Primary evidence</p><h2>Provider-owned documentation</h2><p><a href="${html(entry.sourceUrl)}" rel="noreferrer">${html(providerLabels[entry.provider])} official deprecation page ↗</a></p><p>${html(entry.notes)}</p></section>
   <section class="caution"><h2>Migration caution</h2><p>An official replacement can change output quality, price, latency, rate limits, token limits, and supported parameters. ${entry.replacementConfidence === "high" ? "SunsetPR only considers a deterministic edit when the code context is also high confidence." : "This replacement is not eligible for the default deterministic repair path."}</p></section>
-  <section class="cta"><p class="tag">Find this ID in your repository</p><h2>Scan read-only. Repair only with explicit opt-in.</h2><p>The free Action runs inside your GitHub runner and sends no repository code to SunsetPR or an external AI model. Eligible repairs are bot-created drafts and never auto-merge.</p><div class="actions"><a class="button primary" href="${actionUrl}">Install the free Action ↗</a><a class="button" href="${demoPrUrl}">Inspect a real repair PR ↗</a></div></section>
+  <section class="cta"><p class="tag">Find this ID in your repository</p><h2>Scan read-only. Repair only with explicit opt-in.</h2><p>The free Action runs inside your GitHub runner and sends no repository code to SunsetPR or an external AI model. Eligible repairs are bot-created drafts and never auto-merge.</p><div class="actions"><a class="button primary" href="${actionUrl}">Install the free Action ↗</a><a class="button" href="${demoPrUrl}">Inspect a real repair PR ↗</a><a class="button" href="${privateBetaUrl}">Request beta privately</a></div><p class="disclaimer">Do not email source code, secrets, environment values, customer names, or private repository URLs.</p></section>
   <p class="disclaimer">Provider documentation remains the source of truth. Static analysis cannot resolve remote configuration or arbitrary runtime expressions; those remain explicitly unconfirmed.</p>
   <script type="application/ld+json">${structuredData}</script>
 </article>`,

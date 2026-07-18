@@ -111,7 +111,9 @@ See [BENCHMARK.md](BENCHMARK.md) for the corpus construction, thresholds, exact 
 
 The paid product is being validated separately. It proposes a draft pull request with conservative code changes, location-scoped migration invariants, official evidence, and customer-CI results. The invariants do not prove live model behavior. It never auto-merges. If CI fails or the successor is ambiguous, the result remains a draft or report.
 
-[Request repair beta access](https://github.com/synergia-yoshi/sunsetpr-action/issues/new?template=repair-beta.yml)
+[Request repair beta access privately by email](mailto:katsumi@synergia-hub.com?subject=SunsetPR%20Repair%20beta%20request&body=Please%20do%20not%20include%20source%20code%2C%20secrets%2C%20or%20environment%20values.%0A%0AProviders%3A%0ALanguages%3A%0ARepository%20count%3A%0APublic%20or%20private%3A)
+
+The [GitHub beta request form](https://github.com/synergia-yoshi/sunsetpr-action/issues/new?template=repair-beta.yml) remains available, but it creates a public issue. Do not include source code, secrets, environment values, customer names, or private repository URLs in either request.
 
 Pricing is under design-partner validation and is not an active purchase offer.
 
