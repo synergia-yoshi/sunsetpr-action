@@ -93,7 +93,17 @@ Static analysis cannot prove the deployed value of an environment variable, a da
 
 An official replacement can still differ in behavior, quality, latency, price, token limits, or supported parameters. The free Action does not edit code. Detection confidence is separate from replacement confidence; both must be high before the repair product considers a finding eligible for a deterministic edit. Preview or ambiguous successors are not considered safe automatic fixes.
 
-The published benchmark contains 230 labeled positive and 230 labeled negative synthetic cases and currently measures 100% recall and 0% false-positive rate. It is a reproducible regression suite, not a claim about all real repositories.
+The repository includes 230 labeled positive and 230 labeled negative synthetic cases and currently measures 100% recall and 0% false-positive rate. It is a reproducible regression suite, not a claim about all real repositories.
+
+```bash
+npm ci
+npm run benchmark:check
+npm run benchmark
+```
+
+`benchmark:check` also proves that the generated cases still cover every lifecycle-database row. The same commands run in the public Linux CI.
+
+See [BENCHMARK.md](BENCHMARK.md) for the corpus construction, thresholds, exact current confusion matrix, and limits.
 
 ## CI-verified repair beta
 
