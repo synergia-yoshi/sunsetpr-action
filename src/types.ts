@@ -13,10 +13,23 @@ export interface LifecycleEntry {
   notes: string;
 }
 
+export interface ApiLifecycleEntry {
+  provider: "openai";
+  apiId: "assistants-api" | "videos-api";
+  apiName: "Assistants API" | "Videos API";
+  status: "deprecated";
+  shutdownDate: string;
+  replacement: string | null;
+  sourceUrl: string;
+  sdk: "OpenAI Assistants" | "OpenAI Videos";
+  notes: string;
+}
+
 export interface LifecycleDatabase {
   version: number;
   checkedAt: string;
   entries: LifecycleEntry[];
+  apiDeprecations: ApiLifecycleEntry[];
 }
 
 export interface Location {
@@ -57,7 +70,22 @@ export interface RuntimeCheckFinding {
   message: string;
 }
 
-export type Finding = ModelFinding | RuntimeCheckFinding;
+export interface ApiDeprecationFinding {
+  id: string;
+  kind: "api_deprecation";
+  provider: "openai";
+  apiId: "assistants-api" | "videos-api";
+  status: "deprecated";
+  shutdownDate: string;
+  replacement: string | null;
+  sourceUrl: string;
+  confidence: "high";
+  sdk: "OpenAI Assistants" | "OpenAI Videos";
+  location: Location;
+  message: string;
+}
+
+export type Finding = ModelFinding | RuntimeCheckFinding | ApiDeprecationFinding;
 
 export interface ScanReport {
   schemaVersion: 1;
@@ -75,6 +103,7 @@ export interface ScanReport {
   summary: {
     filesSkipped: number;
     modelReferences: number;
+    apiDeprecations: number;
     runtimeChecks: number;
     deprecated: number;
     retired: number;

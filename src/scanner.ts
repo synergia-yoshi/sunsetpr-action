@@ -45,7 +45,7 @@ export async function scanRepository(
     try {
       const fileFindings =
         file.kind === "code"
-          ? analyzeCode(file.relativePath, content, entries)
+          ? analyzeCode(file.relativePath, content, entries, database.apiDeprecations)
           : analyzeConfig(file.relativePath, content, entries);
       findings.push(...fileFindings);
     } catch (error) {
@@ -68,6 +68,8 @@ export async function scanRepository(
   });
 
   const modelFindings = findings.filter((finding) => finding.kind === "model_reference");
+  const apiDeprecations = findings.filter((finding) => finding.kind === "api_deprecation");
+  const runtimeChecks = findings.filter((finding) => finding.kind === "runtime_check");
   return {
     schemaVersion: 1,
     toolVersion: TOOL_VERSION,
@@ -81,7 +83,8 @@ export async function scanRepository(
     summary: {
       filesSkipped: limitations.length,
       modelReferences: modelFindings.length,
-      runtimeChecks: findings.length - modelFindings.length,
+      apiDeprecations: apiDeprecations.length,
+      runtimeChecks: runtimeChecks.length,
       deprecated: modelFindings.filter((finding) => finding.status === "deprecated").length,
       retired: modelFindings.filter((finding) => finding.status === "retired").length,
       safeAutoFixes: modelFindings.filter(

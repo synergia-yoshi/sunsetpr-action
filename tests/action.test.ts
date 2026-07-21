@@ -14,13 +14,14 @@ test("ships a current validated lifecycle database", async () => {
 
 test("detects known IDs and preserves dynamic model uncertainty", async () => {
   const report = await scanRepository("test-fixture", await loadDatabase());
-  assert.equal(report.toolVersion, "0.1.7");
+  assert.equal(report.toolVersion, "0.2.0");
   assert.equal(report.summary.modelReferences, 1);
+  assert.equal(report.summary.apiDeprecations, 0);
   assert.equal(report.summary.runtimeChecks, 1);
   assert.equal(report.summary.safeAutoFixes, 1);
   const summary = renderActionSummary(report);
   assert.match(summary, /official/);
-  assert.match(summary, /v0\.1\.7/);
+  assert.match(summary, /v0\.2\.0/);
   assert.match(summary, /Detection confidence/);
   assert.match(summary, /code-context and official-replacement gates/);
   assert.match(summary, /Runtime confirmation required/);
@@ -53,4 +54,94 @@ new OpenAI().beta.chat.completions.runTools({
   assert.equal(models[0]?.sdk, "OpenAI runTools");
   assert.equal(runtimeChecks.length, 1);
   assert.equal(runtimeChecks[0]?.expression, 'options.model ?? "gpt-4-turbo"');
+});
+
+test("detects a single-use model constant without hiding mutable uncertainty", async () => {
+  const database = await loadDatabase();
+  const entries = new Map(database.entries.map((entry) => [entry.modelId, entry]));
+  const fixed = analyzeCode(
+    "src/fixed.ts",
+    `import OpenAI from "openai";
+const MODEL = "gpt-4-turbo";
+new OpenAI().responses.create({ model: MODEL, input: "x" });`,
+    entries,
+  );
+  const mutable = analyzeCode(
+    "src/mutable.ts",
+    `import OpenAI from "openai";
+let model = "gpt-4-turbo";
+new OpenAI().responses.create({ model, input: "x" });`,
+    entries,
+  );
+
+  assert.equal(
+    fixed.find((finding) => finding.kind === "model_reference")?.confidence,
+    "high",
+  );
+  assert.equal(fixed.filter((finding) => finding.kind === "runtime_check").length, 0);
+  assert.equal(
+    mutable.find((finding) => finding.kind === "model_reference")?.confidence,
+    "medium",
+  );
+  assert.equal(mutable.filter((finding) => finding.kind === "runtime_check").length, 1);
+});
+
+test("detects legacy Gemini positional calls", async () => {
+  const database = await loadDatabase();
+  const entries = new Map(database.entries.map((entry) => [entry.modelId, entry]));
+  const findings = analyzeCode(
+    "src/gemini.py",
+    `import google.generativeai as genai
+model = genai.GenerativeModel("gemini-2.5-flash")
+model.generate_content("hello")`,
+    entries,
+  );
+  const model = findings.find((finding) => finding.kind === "model_reference");
+
+  assert.equal(model?.confidence, "high");
+  assert.equal(model?.sdk, "Gemini generate content");
+});
+
+test("reports OpenAI Assistants and Videos API shutdowns without inventing a migration", async () => {
+  const database = await loadDatabase();
+  const entries = new Map(database.entries.map((entry) => [entry.modelId, entry]));
+  const findings = analyzeCode(
+    "src/openai.ts",
+    `import OpenAI from "openai";
+const client = new OpenAI();
+await client.beta.threads.runs.create("thread", { assistant_id: "assistant" });
+await client.videos.create({ model: "sora-2", prompt: "hello" });`,
+    entries,
+    database.apiDeprecations,
+  );
+  const apiFindings = findings.filter((finding) => finding.kind === "api_deprecation");
+  const assistants = apiFindings.find((finding) => finding.apiId === "assistants-api");
+  const videos = apiFindings.find((finding) => finding.apiId === "videos-api");
+
+  assert.equal(assistants?.shutdownDate, "2026-08-26");
+  assert.equal(assistants?.replacement, "Responses API and Conversations API");
+  assert.equal(videos?.shutdownDate, "2026-09-24");
+  assert.equal(videos?.replacement, null);
+  const summary = renderActionSummary({
+    schemaVersion: 1,
+    toolVersion: "0.2.0",
+    databaseVersion: database.version,
+    databaseCheckedAt: database.checkedAt,
+    scannedAt: new Date(0).toISOString(),
+    root: "/tmp/repository",
+    filesScanned: 1,
+    limitations: [],
+    findings: apiFindings,
+    summary: {
+      filesSkipped: 0,
+      modelReferences: 0,
+      apiDeprecations: 2,
+      runtimeChecks: 0,
+      deprecated: 0,
+      retired: 0,
+      safeAutoFixes: 0,
+    },
+  });
+  assert.match(summary, /Responses API and Conversations API/);
+  assert.match(summary, /no official replacement is listed/);
 });

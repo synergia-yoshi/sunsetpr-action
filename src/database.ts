@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { LifecycleDatabase, LifecycleEntry } from "./types.js";
+import type { ApiLifecycleEntry, LifecycleDatabase, LifecycleEntry } from "./types.js";
 
 const PROVIDERS = new Set(["openai", "anthropic", "gemini"]);
 const STATUSES = new Set(["deprecated", "retired"]);
@@ -70,6 +70,42 @@ function validateEntry(value: unknown, index: number): asserts value is Lifecycl
   }
 }
 
+function validateApiEntry(value: unknown, index: number): asserts value is ApiLifecycleEntry {
+  if (typeof value !== "object" || value === null) {
+    throw new Error(`API lifecycle entry ${index} is not an object`);
+  }
+  const entry = value as Record<string, unknown>;
+  if (
+    entry.provider !== "openai" ||
+    !["assistants-api", "videos-api"].includes(String(entry.apiId)) ||
+    !["Assistants API", "Videos API"].includes(String(entry.apiName)) ||
+    entry.status !== "deprecated" ||
+    !["OpenAI Assistants", "OpenAI Videos"].includes(String(entry.sdk))
+  ) {
+    throw new Error(`API lifecycle entry ${index} has unsupported metadata`);
+  }
+  for (const key of ["shutdownDate", "sourceUrl", "notes"]) {
+    if (typeof entry[key] !== "string" || entry[key].length === 0) {
+      throw new Error(`API lifecycle entry ${index} is missing ${key}`);
+    }
+  }
+  if (entry.replacement !== null && (typeof entry.replacement !== "string" || !entry.replacement)) {
+    throw new Error(`API lifecycle entry ${index} has an invalid replacement`);
+  }
+  if (!isIsoDate(String(entry.shutdownDate))) {
+    throw new Error(`API lifecycle entry ${index} has an invalid shutdown date`);
+  }
+  const source = new URL(String(entry.sourceUrl));
+  const expectedSource = OFFICIAL_SOURCES.openai;
+  if (
+    source.protocol !== "https:" ||
+    source.hostname !== expectedSource.hostname ||
+    source.pathname.replace(/\/$/, "") !== expectedSource.pathname
+  ) {
+    throw new Error(`API lifecycle entry ${index} must cite the official openai source`);
+  }
+}
+
 export async function loadDatabase(explicitPath?: string): Promise<LifecycleDatabase> {
   const databasePath = explicitPath ? path.resolve(explicitPath) : defaultDatabasePath();
   const parsed = JSON.parse(await readFile(databasePath, "utf8")) as unknown;
@@ -80,14 +116,18 @@ export async function loadDatabase(explicitPath?: string): Promise<LifecycleData
   if (
     !Number.isInteger(database.version) ||
     typeof database.checkedAt !== "string" ||
+    !Array.isArray(database.apiDeprecations) ||
     !Array.isArray(database.entries)
   ) {
-    throw new Error("Lifecycle database is missing version, checkedAt, or entries");
+    throw new Error(
+      "Lifecycle database is missing version, checkedAt, API entries, or model entries",
+    );
   }
   if (!isIsoDate(database.checkedAt)) {
     throw new Error("Lifecycle database has an invalid checkedAt date");
   }
   database.entries.forEach(validateEntry);
+  database.apiDeprecations.forEach(validateApiEntry);
   const modelIds = new Set<string>();
   const entriesByModelId = new Map<string, LifecycleEntry>();
   for (const entry of database.entries) {
@@ -105,9 +145,17 @@ export async function loadDatabase(explicitPath?: string): Promise<LifecycleData
       );
     }
   }
+  const apiIds = new Set<string>();
+  for (const entry of database.apiDeprecations) {
+    if (apiIds.has(entry.apiId)) {
+      throw new Error(`Duplicate API ID in lifecycle database: ${entry.apiId}`);
+    }
+    apiIds.add(entry.apiId);
+  }
   return {
     version: database.version as number,
     checkedAt: database.checkedAt,
     entries: database.entries,
+    apiDeprecations: database.apiDeprecations,
   };
 }

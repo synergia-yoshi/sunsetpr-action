@@ -6,9 +6,12 @@
 [![Latest release](https://img.shields.io/github/v/release/synergia-yoshi/sunsetpr-action)](https://github.com/synergia-yoshi/sunsetpr-action/releases/latest)
 [![License](https://img.shields.io/github/license/synergia-yoshi/sunsetpr-action)](LICENSE)
 
-Catch deprecated OpenAI, Anthropic, and Google Gemini model IDs in CI before their shutdown date.
+Catch deprecated OpenAI, Anthropic, and Google Gemini model IDs and selected API surfaces in CI
+before their shutdown date.
 
-SunsetPR reports the exact file and line, the provider's recommended replacement, the shutdown date, replacement confidence, and a link to the official provider documentation. Dynamic model selection is never reported as “unaffected”; it is marked for runtime confirmation.
+SunsetPR reports the exact file and line, shutdown date, official replacement or migration path,
+confidence, and provider-owned documentation. Dynamic model selection is never reported as
+“unaffected”; it is marked for runtime confirmation. API redesigns remain report-only.
 
 **Proof, not a screenshot:** inspect the [public demo scan workflow](https://github.com/synergia-yoshi/sunsetpr-demo/actions/workflows/sunsetpr.yml) and the [draft repair PR it complements](https://github.com/synergia-yoshi/sunsetpr-demo/pull/2). The PR shows the generated diff, migration invariants, official evidence, skipped checks, and repository CI in public.
 
@@ -34,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-      - uses: synergia-yoshi/sunsetpr-action@7e1c36bea73a7e6a8ed81d803cf00ff3dcbe9161 # v0.1.7
+      - uses: synergia-yoshi/sunsetpr-action@074b4e2aad0678075acad14d5e043e0ca788e77b # v0.2.0
         with:
           fail-on: never
 ```
@@ -45,16 +48,26 @@ The first run adds line annotations and a structured table to the GitHub Actions
 
 - TypeScript, JavaScript, and Python
 - hardcoded model IDs in major official SDK call shapes
+- single-use `const` model IDs passed to a supported SDK call
 - model IDs assigned to model-named variables
 - `.env`, JSON, YAML, TOML, INI, and CFG model settings
+- OpenAI Assistants API calls before the 2026-08-26 shutdown
+- OpenAI Videos API calls before the 2026-09-24 shutdown, with no replacement invented
+- legacy Gemini Python `GenerativeModel("…")` call shapes
 - OpenAI, Anthropic, and Google Gemini entries verified against official provider documentation
 - unresolved SDK arguments that require runtime confirmation
 
-The bundled database currently contains 105 exact model IDs and aliases, checked on 2026-07-19. Provider documentation is the only source of truth.
+The bundled database currently contains 105 exact model IDs and aliases plus 2 API surfaces,
+checked on 2026-07-19. Provider documentation is the only source of truth.
 
-[Browse all model shutdown dates and official replacements](MODEL-LIFECYCLE.md), or consume the canonical [`data/lifecycle.json`](data/lifecycle.json).
+[Browse model shutdown dates](MODEL-LIFECYCLE.md), inspect the
+[API deprecation evaluation](API-DEPRECATION-EVALUATION.md), or consume the canonical
+[`data/lifecycle.json`](data/lifecycle.json).
 
-The same official-source data also powers [105 crawlable model shutdown pages](https://synergia-yoshi.github.io/sunsetpr-action/models/) on GitHub Pages. The pages are generated and count-checked in public CI; they do not add tracking or a separate data source.
+The same official-source data also powers
+[105 model shutdown pages](https://synergia-yoshi.github.io/sunsetpr-action/models/) and
+[2 API shutdown pages](https://synergia-yoshi.github.io/sunsetpr-action/apis/) on GitHub Pages.
+The pages are generated and count-checked in public CI; they do not add tracking or another source.
 
 The maintainer workflow fetches only the three configured provider-owned pages each week. It verifies that every current ID, shutdown date, and replacement remains represented and compares semantic model/date fingerprints. Drift opens one refreshable GitHub issue; it never rewrites lifecycle data without an official-source review.
 
@@ -71,6 +84,7 @@ The maintainer workflow fetches only the three configured provider-owned pages e
 | Output | Meaning |
 | --- | --- |
 | `findings` | Deprecated or retired model references |
+| `api-deprecations` | Deprecated API call sites |
 | `runtime-checks` | Dynamic values that static analysis could not resolve |
 | `retired` | References to models already shut down |
 | `deprecated` | References to models with an announced shutdown |
@@ -108,6 +122,17 @@ npm run benchmark
 
 See [BENCHMARK.md](BENCHMARK.md) for the corpus construction, thresholds, exact current confusion matrix, and limits.
 
+The API detector also has a separately labeled positive engineering sample: 4 licensed public
+repositories at fixed commits, 8 files, and 56 Assistants API call sites. All 56 are detected. This
+is a real-source regression gate, not a prevalence, recall, or false-positive estimate.
+
+```bash
+npm run evaluate:api-deprecations
+```
+
+See [API-DEPRECATION-EVALUATION.md](API-DEPRECATION-EVALUATION.md) for fixed commits, licenses,
+method, and limits.
+
 ## Evidence-backed repair beta
 
 The paid product is being validated separately. It proposes a draft pull request with conservative code changes, location-scoped migration invariants, official evidence, and customer-CI results. The invariants do not prove live model behavior. It never auto-merges. If CI fails or the successor is ambiguous, the result remains a draft or report.
@@ -124,6 +149,9 @@ The `v0` release is packaged and tested for GitHub-hosted `ubuntu-latest` runner
 
 ## Versioning
 
-The recommended snippet pins the reviewed `v0.1.7` runtime commit by full SHA. Review release notes and public CI before updating both the SHA and its version comment. Use the immutable `@v0.1.7` tag for readability or floating `@v0` only when automatic compatible-beta updates are an intentional tradeoff.
+The installation snippet pins the reviewed `v0.2.0` Linux runtime by full commit SHA. Review release
+notes and public CI before updating both the SHA and its version comment. The immutable `@v0.2.0`
+tag is available for readability; use floating `@v0` only when automatic compatible-beta updates are
+an intentional tradeoff.
 
 Apache-2.0. SunsetPR is independent of OpenAI, Anthropic, Google, and GitHub.

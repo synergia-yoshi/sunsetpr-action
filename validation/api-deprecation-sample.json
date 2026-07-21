@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "checkedAt": "2026-07-19",
+  "officialSource": "https://developers.openai.com/api/docs/deprecations",
+  "repositories": [
+    {
+      "name": "openai/openai-node",
+      "commit": "2706888499a777b47d851aeb479f846f80932765",
+      "license": "Apache-2.0",
+      "licenseUrl": "https://github.com/openai/openai-node/blob/2706888499a777b47d851aeb479f846f80932765/LICENSE",
+      "files": [
+        { "path": "examples/assistant-stream-raw.ts", "expectedAssistantsFindings": 3 },
+        { "path": "examples/assistant-stream.ts", "expectedAssistantsFindings": 3 },
+        { "path": "examples/assistants.ts", "expectedAssistantsFindings": 4 }
+      ]
+    },
+    {
+      "name": "FlowiseAI/Flowise",
+      "commit": "ed9e100fb71643cd3922b005908f9732bc0e07dc",
+      "license": "Apache-2.0 for the sampled path",
+      "licenseUrl": "https://github.com/FlowiseAI/Flowise/blob/ed9e100fb71643cd3922b005908f9732bc0e07dc/LICENSE.md",
+      "files": [
+        {
+          "path": "packages/components/nodes/agents/OpenAIAssistant/OpenAIAssistant.ts",
+          "expectedAssistantsFindings": 22
+        }
+      ]
+    },
+    {
+      "name": "growilabs/growi",
+      "commit": "8a3683aa38811095b8e6446b34dc52c5ce94cd48",
+      "license": "MIT",
+      "licenseUrl": "https://github.com/growilabs/growi/blob/8a3683aa38811095b8e6446b34dc52c5ce94cd48/LICENSE",
+      "files": [
+        {
+          "path": "apps/app/src/features/openai/server/services/assistant/create-assistant.ts",
+          "expectedAssistantsFindings": 3
+        },
+        {
+          "path": "apps/app/src/features/openai/server/services/client-delegator/azure-openai-client-delegator.ts",
+          "expectedAssistantsFindings": 5
+        },
+        {
+          "path": "apps/app/src/features/openai/server/services/client-delegator/openai-client-delegator.ts",
+          "expectedAssistantsFindings": 5
+        }
+      ]
+    },
+    {
+      "name": "langchain-ai/langchainjs",
+      "commit": "ee76ea0347fb611153e5ec7d0e70fa405f5293a3",
+      "license": "MIT",
+      "licenseUrl": "https://github.com/langchain-ai/langchainjs/blob/ee76ea0347fb611153e5ec7d0e70fa405f5293a3/LICENSE",
+      "files": [
+        {
+          "path": "libs/langchain-classic/src/experimental/openai_assistant/index.ts",
+          "expectedAssistantsFindings": 11
+        }
+      ]
+    }
+  ]
+}

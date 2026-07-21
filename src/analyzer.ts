@@ -3,6 +3,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Lang, parse, registerDynamicLanguage, type SgNode } from "@ast-grep/napi";
 import type {
+  ApiDeprecationFinding,
+  ApiLifecycleEntry,
   Finding,
   LifecycleEntry,
   Location,
@@ -83,7 +85,7 @@ function findingId(kind: string, location: Location, discriminator: string): str
 function providerEvidence(content: string, provider: Provider): boolean {
   switch (provider) {
     case "openai":
-      return /(?:from\s+["']openai["']|from\s+openai\b|require\(["']openai["']\)|\bOpenAI\b)/.test(
+      return /(?:from\s+["'](?:@langchain\/)?openai["']|from\s+openai\b|require\(["']openai["']\)|\bOpenAI(?:Client)?\b)/.test(
         content,
       );
     case "anthropic":
@@ -113,7 +115,8 @@ function detectSdkCall(text: string, content: string): SdkCall | null {
   }
   if (
     /\.(?:models\.)?(?:generateContent|generate_content)\s*\(/.test(text) ||
-    /\.getGenerativeModel\s*\(/.test(text)
+    /\.getGenerativeModel\s*\(/.test(text) ||
+    /(?:^|\.)GenerativeModel\s*\(/.test(text)
   ) {
     if (providerEvidence(content, "gemini")) {
       return { provider: "gemini", name: "Gemini generate content" };
@@ -129,12 +132,30 @@ function modelArgument(call: SgNode): SgNode | null {
       return;
     }
     const text = node.text();
-    if (node.kind() === "pair" && /^\s*(?:model|modelId|model_id)\s*:/.test(text)) {
+    if (
+      node.kind() === "pair" &&
+      /^\s*(?:model|modelId|model_id|modelName|model_name)\s*:/.test(text)
+    ) {
       result = node;
-    } else if (node.kind() === "keyword_argument" && /^\s*(?:model|model_id)\s*=/.test(text)) {
+    } else if (
+      node.kind() === "keyword_argument" &&
+      /^\s*(?:model|model_id|model_name)\s*=/.test(text)
+    ) {
+      result = node;
+    } else if (
+      node.kind() === "shorthand_property_identifier" &&
+      /^(?:model|modelId|model_id|modelName)$/.test(text.trim())
+    ) {
       result = node;
     }
   });
+  if (!result && /(?:^|\.)GenerativeModel\s*\(/.test(call.text())) {
+    walk(call, (node) => {
+      if (!result && stringValue(node) !== null) {
+        result = node;
+      }
+    });
+  }
   return result;
 }
 
@@ -167,10 +188,73 @@ function isDirectLiteralModelExpression(text: string): boolean {
   return match[1] !== "`" || !match[2]?.includes("${");
 }
 
+function modelExpression(argument: SgNode): string {
+  return argument
+    .text()
+    .replace(/^\s*(?:model|modelId|model_id|modelName|model_name)\s*[:=]\s*/, "")
+    .trim();
+}
+
+function identifierOccurrences(content: string, identifier: string): number {
+  const escaped = identifier.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return (content.match(new RegExp(`(?<![A-Za-z0-9_$])${escaped}(?![A-Za-z0-9_$])`, "g")) ?? [])
+    .length;
+}
+
+function declarationIdentifier(node: SgNode): string | null {
+  const match = node.text().match(/^\s*([A-Za-z_$][A-Za-z0-9_$]*)\s*(?::[^=]+)?=/);
+  return match?.[1] ?? null;
+}
+
+function directStaticSdkConstants(root: SgNode, content: string): Map<string, SdkCall> {
+  const uses = new Map<string, SdkCall[]>();
+  walk(root, (node) => {
+    if (!["call", "call_expression"].includes(String(node.kind()))) {
+      return;
+    }
+    const sdk = detectSdkCall(node.text(), content);
+    const argument = sdk ? modelArgument(node) : null;
+    const expression = argument ? modelExpression(argument) : "";
+    if (!sdk || !/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(expression)) {
+      return;
+    }
+    const existing = uses.get(expression) ?? [];
+    existing.push(sdk);
+    uses.set(expression, existing);
+  });
+
+  const constants = new Map<string, SdkCall>();
+  walk(root, (node) => {
+    if (node.kind() !== "variable_declarator") {
+      return;
+    }
+    const identifier = declarationIdentifier(node);
+    const initializer = node.children().at(-1);
+    const declaration = node
+      .ancestors()
+      .find((ancestor) => ancestor.kind() === "lexical_declaration");
+    const sdkUses = identifier ? uses.get(identifier) : undefined;
+    if (
+      !identifier ||
+      !declaration ||
+      !/^\s*const\b/.test(declaration.text()) ||
+      !initializer ||
+      !isDirectLiteralModelExpression(initializer.text()) ||
+      sdkUses?.length !== 1 ||
+      identifierOccurrences(content, identifier) !== 2
+    ) {
+      return;
+    }
+    constants.set(identifier, sdkUses[0] as SdkCall);
+  });
+  return constants;
+}
+
 function modelContext(
   node: SgNode,
   content: string,
   provider: Provider,
+  staticConstants: Map<string, SdkCall>,
 ): {
   sourceKind: "hardcoded" | "environment";
   confidence: "high" | "medium";
@@ -178,7 +262,10 @@ function modelContext(
 } | null {
   for (const ancestor of node.ancestors()) {
     const text = ancestor.text();
-    if (ancestor.kind() === "pair" && /^\s*(?:model|modelId|model_id)\s*:/.test(text)) {
+    if (
+      ancestor.kind() === "pair" &&
+      /^\s*(?:model|modelId|model_id|modelName|model_name)\s*:/.test(text)
+    ) {
       const call = ancestor
         .ancestors()
         .find((candidate) => ["call", "call_expression"].includes(String(candidate.kind())));
@@ -191,7 +278,10 @@ function modelContext(
         sdk: sdk?.provider === provider ? sdk.name : null,
       };
     }
-    if (ancestor.kind() === "keyword_argument" && /^\s*(?:model|model_id)\s*=/.test(text)) {
+    if (
+      ancestor.kind() === "keyword_argument" &&
+      /^\s*(?:model|model_id|model_name)\s*=/.test(text)
+    ) {
       const call = ancestor
         .ancestors()
         .find((candidate) => ["call", "call_expression"].includes(String(candidate.kind())));
@@ -203,6 +293,28 @@ function modelContext(
         confidence: sdk?.provider === provider ? "high" : "medium",
         sdk: sdk?.provider === provider ? sdk.name : null,
       };
+    }
+    if (
+      ["call", "call_expression"].includes(String(ancestor.kind())) &&
+      /(?:^|\.)GenerativeModel\s*\(/.test(ancestor.text())
+    ) {
+      const sdk = detectSdkCall(ancestor.text(), content);
+      return {
+        sourceKind: "hardcoded",
+        confidence: sdk?.provider === provider ? "high" : "medium",
+        sdk: sdk?.provider === provider ? sdk.name : null,
+      };
+    }
+    if (ancestor.kind() === "variable_declarator") {
+      const identifier = declarationIdentifier(ancestor);
+      const sdk = identifier ? staticConstants.get(identifier) : undefined;
+      if (sdk?.provider === provider) {
+        return {
+          sourceKind: "hardcoded",
+          confidence: "high",
+          sdk: sdk.name,
+        };
+      }
     }
     if (
       ["variable_declarator", "assignment", "expression_statement"].includes(
@@ -240,6 +352,7 @@ export function analyzeCode(
   relativePath: string,
   content: string,
   entries: Map<string, LifecycleEntry>,
+  apiEntries: ApiLifecycleEntry[] = [],
 ): Finding[] {
   const extension = path.extname(relativePath).toLowerCase();
   const language =
@@ -251,6 +364,8 @@ export function analyzeCode(
           ? Lang.TypeScript
           : Lang.JavaScript;
   const root = parse(language, content).root();
+  const staticConstants = directStaticSdkConstants(root, content);
+  const apiEntriesById = new Map(apiEntries.map((entry) => [entry.apiId, entry]));
   const findings: Finding[] = [];
   const seen = new Set<string>();
 
@@ -260,7 +375,7 @@ export function analyzeCode(
     if (!entry) {
       return;
     }
-    const context = modelContext(node, content, entry.provider);
+    const context = modelContext(node, content, entry.provider, staticConstants);
     if (!context) {
       return;
     }
@@ -298,6 +413,88 @@ export function analyzeCode(
   });
 
   walk(root, (node) => {
+    const entry = apiEntriesById.get("assistants-api");
+    if (
+      !entry ||
+      !["call", "call_expression"].includes(String(node.kind())) ||
+      !/\.beta\.(?:assistants|threads)\b/.test(node.text()) ||
+      !providerEvidence(content, "openai")
+    ) {
+      return;
+    }
+    const range = node.range();
+    const location = toLocation(
+      relativePath,
+      range.start.line,
+      range.start.column,
+      range.start.index,
+      range.end.index,
+    );
+    const id = findingId("api", location, "openai-assistants-api");
+    if (seen.has(id)) {
+      return;
+    }
+    seen.add(id);
+    const finding: ApiDeprecationFinding = {
+      id,
+      kind: "api_deprecation",
+      provider: "openai",
+      apiId: "assistants-api",
+      status: entry.status,
+      shutdownDate: entry.shutdownDate,
+      replacement: entry.replacement,
+      sourceUrl: entry.sourceUrl,
+      confidence: "high",
+      sdk: entry.sdk,
+      location,
+      message: `${entry.apiName} is deprecated and shuts down on ${entry.shutdownDate}; migrate to ${entry.replacement}.`,
+    };
+    findings.push(finding);
+  });
+
+  walk(root, (node) => {
+    const entry = apiEntriesById.get("videos-api");
+    if (
+      !entry ||
+      !["call", "call_expression"].includes(String(node.kind())) ||
+      !/\.videos\.(?:create|retrieve|downloadContent|download_content|delete|remix)\s*\(/.test(
+        node.text(),
+      ) ||
+      !providerEvidence(content, "openai")
+    ) {
+      return;
+    }
+    const range = node.range();
+    const location = toLocation(
+      relativePath,
+      range.start.line,
+      range.start.column,
+      range.start.index,
+      range.end.index,
+    );
+    const id = findingId("api", location, "openai-videos-api");
+    if (seen.has(id)) {
+      return;
+    }
+    seen.add(id);
+    const finding: ApiDeprecationFinding = {
+      id,
+      kind: "api_deprecation",
+      provider: "openai",
+      apiId: "videos-api",
+      status: entry.status,
+      shutdownDate: entry.shutdownDate,
+      replacement: entry.replacement,
+      sourceUrl: entry.sourceUrl,
+      confidence: "high",
+      sdk: entry.sdk,
+      location,
+      message: `${entry.apiName} is deprecated and shuts down on ${entry.shutdownDate}; the official deprecations page lists no replacement.`,
+    };
+    findings.push(finding);
+  });
+
+  walk(root, (node) => {
     if (!["call", "call_expression"].includes(String(node.kind()))) {
       return;
     }
@@ -309,10 +506,14 @@ export function analyzeCode(
     if (!argument) {
       return;
     }
-    const expression = argument.text().replace(/^\s*(?:model|modelId|model_id)\s*[:=]\s*/, "");
+    const expression = modelExpression(argument);
     const sourceKind = runtimeSourceKind(expression);
     const literalModel = hasLiteralModelInNode(argument);
-    if (literalModel && isDirectLiteralModelExpression(expression)) {
+    const staticSdk = staticConstants.get(expression);
+    if (
+      (literalModel && isDirectLiteralModelExpression(expression)) ||
+      staticSdk?.provider === sdk.provider
+    ) {
       return;
     }
     const range = argument.range();

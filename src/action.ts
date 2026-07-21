@@ -63,17 +63,23 @@ export function renderAnnotation(finding: Finding): string {
   const level =
     finding.kind === "runtime_check"
       ? "notice"
-      : finding.status === "retired"
-        ? "error"
-        : "warning";
+      : finding.kind === "api_deprecation"
+        ? "warning"
+        : finding.status === "retired"
+          ? "error"
+          : "warning";
   const title =
     finding.kind === "runtime_check"
       ? "SunsetPR: runtime confirmation required"
-      : `SunsetPR: ${finding.provider} model ${finding.status}`;
+      : finding.kind === "api_deprecation"
+        ? "SunsetPR: deprecated API surface"
+        : `SunsetPR: ${finding.provider} model ${finding.status}`;
   const message =
     finding.kind === "runtime_check"
       ? finding.message
-      : `${finding.modelId} → ${finding.replacement}; shutdown ${finding.shutdownDate}; replacement confidence ${finding.replacementConfidence}. Official source: ${finding.sourceUrl}`;
+      : finding.kind === "api_deprecation"
+        ? `${finding.apiId} → ${finding.replacement ?? "no official replacement listed"}; shutdown ${finding.shutdownDate}. Official source: ${finding.sourceUrl}`
+        : `${finding.modelId} → ${finding.replacement}; shutdown ${finding.shutdownDate}; replacement confidence ${finding.replacementConfidence}. Official source: ${finding.sourceUrl}`;
   return `::${level} file=${workflowCommandValue(finding.location.path)},line=${finding.location.line},col=${finding.location.column},title=${workflowCommandValue(title)}::${workflowCommandMessage(message)}`;
 }
 
@@ -92,6 +98,13 @@ export function renderActionSummary(report: ScanReport): string {
         `- ${inlineCode(`${finding.location.path}:${finding.location.line}`)} — ${escapeMarkdown(finding.message)}`,
     )
     .join("\n");
+  const apiRows = report.findings
+    .filter((finding) => finding.kind === "api_deprecation")
+    .map(
+      (finding) =>
+        `- ${inlineCode(`${finding.location.path}:${finding.location.line}`)} — ${inlineCode(finding.apiId)} shuts down ${finding.shutdownDate}; ${finding.replacement ? `migrate to ${escapeMarkdown(finding.replacement)}` : "no official replacement is listed"} ([official](${finding.sourceUrl}))`,
+    )
+    .join("\n");
   const limitationRows = report.limitations
     .map((limitation) => `- ${inlineCode(limitation.path)} — ${escapeMarkdown(limitation.reason)}`)
     .join("\n");
@@ -103,6 +116,7 @@ ${modelFindings.length === 0 ? "✅ No known deprecated or retired model IDs wer
 | Status | Provider | Model | Official replacement | Shutdown | Detection confidence | Replacement confidence | Evidence | Location |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 ${rows || "| ✅ clear | — | — | — | — | — | — | — | — |"}
+${apiRows ? `\n### Deprecated API surfaces\n\nSunsetPR reports these surfaces without applying an unsafe semantic rewrite.\n\n${apiRows}\n` : ""}
 ${runtimeRows ? `\n### Runtime confirmation required\n\nStatic analysis could not resolve these values. SunsetPR does **not** classify them as unaffected.\n\n${runtimeRows}\n` : ""}
 ${limitationRows ? `\n### Scan limitations\n\n${limitationRows}\n` : ""}
 ### Scope and data handling
@@ -129,7 +143,7 @@ export async function main(): Promise<void> {
 
   await appendIfConfigured(
     "GITHUB_OUTPUT",
-    `findings=${report.summary.modelReferences}\nruntime-checks=${report.summary.runtimeChecks}\nretired=${report.summary.retired}\ndeprecated=${report.summary.deprecated}\nsafe-auto-fixes=${report.summary.safeAutoFixes}\nreport=${reportPath}\n`,
+    `findings=${report.summary.modelReferences}\napi-deprecations=${report.summary.apiDeprecations}\nruntime-checks=${report.summary.runtimeChecks}\nretired=${report.summary.retired}\ndeprecated=${report.summary.deprecated}\nsafe-auto-fixes=${report.summary.safeAutoFixes}\nreport=${reportPath}\n`,
   );
   await appendIfConfigured("GITHUB_STEP_SUMMARY", renderActionSummary(report));
   for (const finding of report.findings) {
@@ -137,13 +151,15 @@ export async function main(): Promise<void> {
   }
   process.stdout.write(`${renderScanText(report)}\n`);
 
-  const modelFindings = report.findings.filter((finding) => finding.kind === "model_reference");
+  const lifecycleFindings = report.findings.filter(
+    (finding) => finding.kind === "model_reference" || finding.kind === "api_deprecation",
+  );
   const fails =
     failOn === "retired"
-      ? modelFindings.some((finding) => finding.status === "retired")
+      ? lifecycleFindings.some((finding) => finding.status === "retired")
       : failOn === "never"
         ? false
-        : modelFindings.length > 0;
+        : lifecycleFindings.length > 0;
   if (fails) {
     process.exitCode = 2;
   }

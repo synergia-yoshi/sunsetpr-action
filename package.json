@@ -1,7 +1,7 @@
 {
   "name": "sunsetpr-action",
-  "version": "0.1.7",
-  "description": "Detect deprecated OpenAI, Anthropic, and Gemini model IDs in GitHub Actions.",
+  "version": "0.2.0",
+  "description": "Detect deprecated OpenAI, Anthropic, and Gemini model IDs and API surfaces in GitHub Actions.",
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -14,6 +14,7 @@
     "benchmark:generate": "node scripts/generate-benchmark-fixtures.mjs",
     "benchmark:check": "node scripts/generate-benchmark-fixtures.mjs --check",
     "benchmark": "npm run build && node scripts/run-benchmark.mjs",
+    "evaluate:api-deprecations": "npm run build && node scripts/evaluate-api-deprecations.mjs",
     "pages:build": "node scripts/build-pages.mjs",
     "pages:check": "node scripts/check-pages.mjs",
     "catalog:generate": "node scripts/generate-lifecycle-catalog.mjs",
